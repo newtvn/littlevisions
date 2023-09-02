@@ -1,9 +1,10 @@
 <template>
-    <div class="storyboard-item" :class="{active:active}">
-        StoryItemHere
+    <div class="storyboard-item" :class="{active:active}" @click="storyClick">
+       <img :src="story.image">
     </div>
 </template>
 <script>
+
 
 export default {
     name: "StoryBoardItem",
@@ -15,11 +16,19 @@ export default {
     },
     computed:{
         active(){
-            // if(this.props.story){
+            if(this.$props.story){
 
-            //     return this.$props.story.id===this.$route.params['id']
-            // }
+                return this.$props.story.id===this.$route.params['board_id']
+            }
             return false
+        }
+    },
+    methods:{
+        storyClick(){
+                this.$router.replace({name:"build-story", params:{story_id:this.$route.params['story_id'], board_id:this.$props.story.id}})
+               
+                // location.reload()
+            
         }
     }
 }

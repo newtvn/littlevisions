@@ -1,8 +1,8 @@
 <template>
     <main id="story-build">
-        <ProceedModal v-if="showProceedModal" @close="showProceedModal=false" @proceed="proceedStory"/>
+        <ProceedModal v-if="showProceedModal" @close="showProceedModal = false" @proceed="proceedStory" />
         <div class="story-content">
-            <StoryText :text="text" @complete="textComplete = true" />
+            <StoryText :text="storyboard.text" @complete="textComplete = true" v-if="storyboard"/>
 
         </div>
         <StoryBoard />
@@ -12,7 +12,7 @@
 
                 <div class="row default-gap">
                     <p class="button-prefix">Continue Story</p>
-                    <button class="primary-btn circle-btn" @click="showProceedModal=true">
+                    <button class="primary-btn circle-btn" @click="showProceedModal = true">
                         <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
@@ -24,6 +24,8 @@
 import StoryBoard from "@/components/story/StoryBoard.vue"
 import StoryText from "@/components/story/StoryText.vue"
 import ProceedModal from "@/components/story/modals/ProceedModal.vue"
+import { getStoryboardDoc } from '@/firebase'
+import { useDocument } from 'vuefire'
 export default {
     name: "StoryBuild",
     components: {
@@ -33,13 +35,25 @@ export default {
         return {
             showProceedModal: false,
             textComplete: false,
-            text: "Once upon a time, in a land far, far away, there was an enchanted forest unlike any other. The trees whispered secrets to the wind, and the leaves danced with the morning dew.Deep within this magical woodland lived a peculiar creature named Lumina.Lumina was a firefly with wings that shimmered like a thousand tiny stars.She was the guardian of the forest, responsible for keeping its secrets safe ......"
+            storyboard: null
         }
     },
-    methods:{
-        proceedStory(){
+    computed: {
+
+        
+    },
+    methods: {
+        proceedStory() {
             this.showProceedModal = false,
-            console.log("Do some proceed thing")
+                console.log("Do some proceed thing")
+        }
+    },
+    mounted() {
+        var storyId = this.$route.params['story_id']
+        var boardId = this.$route.params['board_id']
+
+        if (boardId) {
+            this.storyboard = useDocument(getStoryboardDoc(storyId, boardId))
         }
     }
 }

@@ -23,7 +23,7 @@ const routes = [
     ],
   },
   {
-    path: "/story/build/:id",
+    path: "/story/:story_id/build/:board_id?",
     name: "build-story",
     component: StoryBuild,
   },

@@ -8,7 +8,7 @@
                 <i class="fas fa-chevron-left"></i>
             </button>
             <div id="library-section-books-list">
-                <BookCard />
+                <BookCard v-for="book in bookList" :key="book.name" :book="book" />
                 
 
             </div>
@@ -22,17 +22,26 @@
 
 <script>
 import BookCard from "./BookCard.vue"
+import {storiesCollection } from "@/firebase"
+import { useCollection } from 'vuefire'
+// import { collection, } from 'firebase/firestore'
+
 export default {
     name: "LibrarySection",
     components: {
         BookCard
-    },
+},
     data(){
         return {
             bookList:[
                 
             ]
         }
+    },
+    mounted(){
+        
+        this.bookList = useCollection(storiesCollection)
+        
     }
 
 }

@@ -1,0 +1,40 @@
+<template>
+    <p class="story-text">
+        {{ typetext }}
+    </p>
+</template>
+
+<script>
+export default {
+    props: {
+        text: {
+            required: true,
+            type: String
+        }
+    },
+    data(){
+        return {
+            typetext: ""
+        }
+    },
+    methods: {
+        typeEffect(){
+            var counter =0;
+            var wordsArr = this.$props.text.split("")
+            var interval = setInterval(()=>{
+                this.typetext += wordsArr[counter]
+                counter++
+                if(counter == wordsArr.length){
+                    this.$emit('complete')
+                    clearInterval(interval)
+                }
+            },100)
+        }
+    },
+
+    mounted(){
+        this.typeEffect()
+
+    }
+}
+</script>

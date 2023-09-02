@@ -222,3 +222,43 @@
   align-self: self-end;
   padding: $default-padding*2 $default-padding*3;
 }
+
+.timeline-list{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+}
+.timeline-card{
+  img{
+    width: 70px;
+    height: 70px;
+    border-radius: 7px;
+    border: 2px solid grey;
+  }
+}
+.timeline-card.active{
+  img{
+    width: 80px;
+    height: 80px;
+    border: 2px solid $primary-color;
+  }
+}
+.story-section{
+  padding: $default-padding*2 $default-padding*3;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  
+}
+.story-text-section{
+  max-width: 500px;
+  align-self: center;
+
+}
+.story-image-section{
+  max-height: 80vh;
+  img{
+    height: 100%;
+  }
+}

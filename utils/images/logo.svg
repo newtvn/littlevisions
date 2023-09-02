@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="387" height="84" viewBox="0 0 387 84">
+  <g id="logo" transform="translate(-74 -217)">
+    <text id="Little" transform="translate(74 278)" fill="#6154a4" font-size="60" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">Little</tspan></text>
+    <g id="Group_1" data-name="Group 1">
+      <text id="Vis" transform="translate(227 280)" fill="#6154a4" font-size="60" font-family="Poppins-Bold, Poppins" font-weight="700" letter-spacing="-0.045em"><tspan x="0" y="0">Vis</tspan></text>
+      <g id="child-svgrepo-com" transform="translate(313.148 229.162)">
+        <path id="Path_1" data-name="Path 1" d="M20.669,10.335A7.335,7.335,0,1,1,13.335,3,7.333,7.333,0,0,1,20.669,10.335Z" transform="translate(8.397 0)" fill="#feab82"/>
+        <path id="Path_2" data-name="Path 2" d="M39.3,19.176,29.763,9.53A8.476,8.476,0,0,0,23.712,7H19.784A8.56,8.56,0,0,0,13.7,9.53L4.165,19.176a2.677,2.677,0,1,0,3.66,3.678L14.4,16.278V40.006h5.5V25.337h3.667V40.006h5.5V16.278l6.418,6.6a2.677,2.677,0,1,0,3.818-3.7Z" transform="translate(0 10.669)" fill="#feab82"/>
+      </g>
+      <text id="ons" transform="translate(354 280)" fill="#6154a4" font-size="60" font-family="Poppins-Bold, Poppins" font-weight="700" letter-spacing="-0.045em"><tspan x="0" y="0">ons</tspan></text>
+    </g>
+  </g>
+</svg>

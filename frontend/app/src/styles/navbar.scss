@@ -1,0 +1,10 @@
+@import './variables.scss';
+nav{
+   display: flex;
+   align-items: center;
+   padding: $default-padding;
+
+}
+#nav-logo{
+    width: 130px;
+}

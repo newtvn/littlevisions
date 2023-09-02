@@ -1,0 +1,123 @@
+@import "./variables.scss";
+#start-story {
+  margin-top: 200px;
+  width: fit-content;
+  margin-left: auto;
+}
+#library-section {
+  margin-left: -$default-padding * 3;
+  margin-right: -$default-padding * 3;
+  margin-top: $default-padding * 5;
+  background-color: #ebe6e5;
+  color: $text-black;
+  min-height: 300px;
+  height: 100%;
+  padding: $default-padding * 3;
+  color: white;
+  border-radius: 10px;
+  display: grid;
+  grid-template-rows: 10% 90%;
+  .section-title {
+    font-weight: 600;
+    color: $text-black;
+  }
+}
+#library-section-books-list {
+  display: flex;
+  gap: 40px;
+}
+#library-section-books {
+  height: 100%;
+}
+.feature-card {
+  background-color: white;
+  padding: $default-padding $default-padding * 2;
+  position: relative;
+  min-width: 250px;
+  color: $text-black;
+  button {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    i {
+      font-size: 1.2em;
+    }
+  }
+  .book-image-background {
+    width: 105px;
+    height: 105px;
+    background-color: #e5e5e5;
+    display: grid;
+    place-items: center;
+  }
+  .book-image {
+    width: 100px;
+    height: 100px;
+    // object-fit: cover;
+    position: relative;
+  }
+  .book-title {
+    font-weight: 600;
+  }
+  .book-author {
+    font-weight: 500;
+    margin-top: $default-padding/2;
+    p {
+      margin-left: $default-padding/2;
+    }
+  }
+}
+.feature-storyboard {
+  display: flex;
+  gap: 10px;
+  margin-top: $default-padding;
+  img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+}
+#pick-modal-buttons {
+  gap: 20px;
+}
+.template-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin:$default-padding*2 0;
+}
+.template-choice-card {
+  background-color: white;
+  cursor: pointer;
+  width: fit-content;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: $default-padding;
+  padding: $default-padding/2 $default-padding;
+  font-size: 0.9em;
+  font-weight: 500;
+  border-radius: 7px;
+  transition: all .2s ease-in-out;
+  color: $text-black;
+}
+.template-choice-card.selected{
+    background-color: $tertiary-color;
+    // color: white;
+    border: 2px solid $text-black;
+    border-radius: 0px;
+    // font-weight: 600;
+    scale: 1.05;
+}
+#pick-modal{
+    .button-prefix{
+        font-size: small;
+    }
+}
+.modal-footer{
+    .button-row{
+        margin-top: $default-padding*2;
+        width: fit-content;
+        margin-left: auto;
+    }
+}

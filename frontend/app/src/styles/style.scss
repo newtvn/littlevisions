@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap");
+@import "./variables.scss";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body{
+    color: $text-black;
+}
+.row {
+  display: flex;
+  align-items: center;
+}
+main {
+  padding: $default-padding $default-padding * 3;
+}
+button {
+  cursor: pointer;
+    text-align: center;
+  .row {
+    gap: 7px;
+    // width: fit-content;
+    justify-content: center;
+  }
+}
+.primary-btn {
+  background-color: $secondary-color;
+  color: white;
+  border: 2px solid $text-black;
+  font-weight: 500;
+  transition: scale 0.05s ease-in;
+  &:hover {
+    scale: 1.02;
+    border: 2.1px solid $text-black;
+  }
+}
+.tertiary-btn {
+  background-color: $tertiary-color;
+  color: white;
+  border: 2px solid $text-black;
+  font-weight: 500;
+  transition: scale 0.05s ease-in;
+  &:hover {
+    scale: 1.02;
+    border: 2.1px solid $text-black;
+  }
+}
+.outline-btn{
+    border: 1px solid black;
+    background: transparent;
+    color: black;
+}
+.secondary-background {
+  background-color: $primary-color;
+}
+.padded-btn {
+  padding: $default-padding $default-padding * 2;
+}
+.circle-btn {
+  border-radius: 50%;
+  min-width: 50px;
+  min-height: 50px;
+}
+.button-prefix {
+  font-weight: 600;
+  font-size: small;
+  
+}
+.center-container {
+  display: grid;
+  place-items: center;
+}
+.default-gap {
+  gap: $default-padding;
+}
+.space-btn {
+  justify-content: space-between;
+}
+.tiny-image{
+    width: 25px;
+    height: 25px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.profile-image {
+  border: 2px solid $text-black;
+}
+.caption{
+    font-size: small;
+    color: $muted-grey;
+}
+.column{
+    display: flex;
+    flex-direction: column;
+}
+.divider{
+    margin: $default-padding*2 0;
+}
+input{
+    border: 1.5px solid $text-black;
+    padding: $default-padding;
+    outline: none;
+}
+.text-field{
+    width: 100%;
+    min-height: 80px;
+}

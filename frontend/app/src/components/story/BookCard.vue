@@ -9,7 +9,7 @@
 
             <div class="column">
 
-                <p class="book-title">{{ book.title }}</p>
+                <p class="book-title">{{ book.name }}</p>
                 <div class="row book-author">
                     <img :src="author.image"
                         alt="" class="tiny-image profile-image">
@@ -29,6 +29,8 @@
     </div>
 </template>
 <script>
+import {getStoryboard} from '@/firebase'
+import { useCollection } from 'vuefire'
 export default {
     name: "BookCard",
     props: {
@@ -36,7 +38,7 @@ export default {
             type: Object,
             default: () => {
                 return {
-                    title: "The Ugly Duckling",
+                    name: "The Ugly Duckling",
                     image: "https://images.unsplash.com/photo-1560306165-4100411e6ed4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2036&q=80"
                 }
             }
@@ -51,17 +53,17 @@ export default {
                 }
             }
         },
-        storyboard: {
-            type: Array,
-            default: () => {
-                return [
-                    {
-                        id: "1",
-                        image: "https://images.unsplash.com/photo-1518084593659-f0241cf82324?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNhcnRvb24lMjBkdWNrfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
-                    }
-                ]
-            }
+        
+    },
+    data(){
+        return {
+            storyboard: []
         }
+    },
+    mounted(){
+        var board = useCollection(getStoryboard(this.$props.book.id))
+        this.storyboard=board
+        
     }
 }
 </script>

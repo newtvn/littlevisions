@@ -29,7 +29,7 @@ const routes = [
   },
   {
     path: "/story/play/:id",
-    name: "build-story",
+    name: "play-story",
     component: StoryPlay,
   },
 ];

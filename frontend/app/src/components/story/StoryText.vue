@@ -21,6 +21,9 @@ export default {
             typetext: ""
         }
     },
+    watch:{
+        
+    },
     methods: {
         typeEffect(){
             var counter =0;

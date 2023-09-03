@@ -31,7 +31,7 @@ const routes = [
     }
   },
   {
-    path: "/story/play/:id",
+    path: "/story/play/:story_id",
     name: "play-story",
     component: StoryPlay,
   },

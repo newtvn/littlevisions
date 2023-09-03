@@ -1,7 +1,6 @@
 <template>
     <div class="timeline-card">
-        <img src="https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/AGMJJNTVPMI6ZITNDQQ4C2Y4SM.jpg"
-            alt="">
+        <img :src="story.image" :class="{ active: active }" alt="">
     </div>
 </template>
 <script>

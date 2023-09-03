@@ -23,7 +23,8 @@
 <script>
 import BookCard from "./BookCard.vue"
 import {storiesCollection } from "@/firebase"
-import { useCollection } from 'vuefire'
+import { getDocs,  query,limit } from 'firebase/firestore';
+
 // import { collection, } from 'firebase/firestore'
 
 export default {
@@ -39,8 +40,14 @@ export default {
         }
     },
     mounted(){
-        
-        this.bookList = useCollection(storiesCollection)
+        const q = query(storiesCollection,limit(2))
+        getDocs(q).then(e=>{
+            this.bookList = e.docs.map(doc => ({
+                ...doc.data(),
+                id: doc.id,
+            }))
+
+        })
         
     }
 

@@ -6,7 +6,7 @@ import StoryHome from "../views/story/StoryHome.vue";
 import StoryPlay from "../views/story/StoryPlay.vue";
 import FlipBookMental from "@/components/FlipBookMental.vue";
 const routes = [
-  {
+{
     path: "/",
     name: "home",
     component: HomeView,
@@ -27,6 +27,9 @@ const routes = [
     path: "/story/:story_id/build/:board_id?",
     name: "build-story",
     component: StoryBuild,
+    meta:{
+      watchParam: "board_id"
+    }
   },
   {
     path: "/story/play/:id",

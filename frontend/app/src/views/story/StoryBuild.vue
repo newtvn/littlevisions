@@ -1,8 +1,12 @@
 <template>
     <main id="story-build">
-        <ProceedModal v-if="showProceedModal" @close="showProceedModal = false" @proceed="proceedStory" />
+        <ProceedModal v-if="showProceedModal" @close="showProceedModal = false" @proceed="proceedStory"
+            @proceedCustom="proceedStoryCustom" :possibilities="possibilities" />
         <div class="story-content">
-            <StoryText :text="storyboard.text" @complete="textComplete = true" v-if="storyboard"/>
+            <StoryText :text="storyboard.text" @complete="textComplete = true" v-if="storyboard" :delay="80" />
+            <div class="center-container">
+                <audio :src="audio_url" controls autoplay v-if="audio_url"></audio>
+            </div>
 
         </div>
         <StoryBoard />
@@ -24,8 +28,12 @@
 import StoryBoard from "@/components/story/StoryBoard.vue"
 import StoryText from "@/components/story/StoryText.vue"
 import ProceedModal from "@/components/story/modals/ProceedModal.vue"
-import { getStoryboardDoc } from '@/firebase'
+import { getStoryboardDoc, createStoryBoard, getStoryNarrative, pushSoundToFirebase } from '@/firebase'
 import { useDocument } from 'vuefire'
+import { mapState } from "vuex"
+import { callOpenAIGpt } from "@/open_ai_api"
+import { Timestamp } from "firebase/firestore"
+import tts from "@/eleven_labs"
 export default {
     name: "StoryBuild",
     components: {
@@ -35,26 +43,113 @@ export default {
         return {
             showProceedModal: false,
             textComplete: false,
-            storyboard: null
+            storyboard: null,
+            possibilities: [],
+            audio_url: null
         }
     },
     computed: {
+        ...mapState(['currentStoryText'])
 
-        
     },
     methods: {
-        proceedStory() {
-            this.showProceedModal = false,
-                console.log("Do some proceed thing")
+        pushSpeechToFirebase(blob) {
+            var storyId = this.$route.params['story_id']
+            var boardId = this.$route.params['board_id']
+            pushSoundToFirebase(storyId, boardId, blob)
+
+        },
+        readText(text) {
+            if (this.storyboard) {
+
+                if (this.storyboard.audio_url) {
+                    this.audio_url = this.storyboard.audio_url
+                    return
+                }
+                else {
+                    console.log("Not Found",text)
+                    tts(text,).then(data => {
+                        console.log(data)
+                        const blob = new Blob([data], { type: 'audio/mpeg' });
+                        this.pushSpeechToFirebase(blob)
+                        const url = URL.createObjectURL(blob);
+                        this.audio_url = url
+                    })
+                }
+            }
+            // Speak the utterance
+            // window.speechSynthesis.speak(utterance);
+        },
+        proceedStory(possibility) {
+            var storyId = this.$route.params['story_id']
+            var data = {
+                text: possibility.text,
+                image: possibility.image,
+                datetime: Timestamp.now()
+            }
+
+            createStoryBoard(storyId, data).then((e) => {
+
+                this.showProceedModal = false;
+                this.$store.dispatch('setNarrative', possibility.text)
+
+                this.$router.replace({ name: 'build-story', params: { story_id: storyId, board_id: e.id } })
+            })
+
+        },
+
+        buildPrompt() {
+            var story_id = this.$route.params['story_id']
+
+            return getStoryNarrative(story_id).then(narrative => {
+
+                return `Give me 4 possible paths in 30 words that extend the following narrative. Your response should be a valid extension on the narrative. Number the paths only using the 1. system: ${narrative}`
+            })
+        },
+        async getPossibilities() {
+            this.buildPrompt().then(prompt => {
+                callOpenAIGpt(prompt).then(e => {
+                    var message = e.choices[0].message.content
+                    var split_message = message.split("\n")
+                    // console.log(split_message)
+                    split_message.forEach((element, index) => {
+                        var text = element.replace(/^\d+\.\s/, '')
+                        this.possibilities.push({
+                            id: index,
+                            text: text,
+                        })
+                    });
+                })
+            })
+
+
+        },
+
+
+    },
+    watch: {
+        storyboard(oldValue,newvalue) {
+            
+            if (newvalue) {
+                this.readText(newvalue.text)
+            }
         }
     },
     mounted() {
+        this.getPossibilities()
+
         var storyId = this.$route.params['story_id']
         var boardId = this.$route.params['board_id']
 
         if (boardId) {
-            this.storyboard = useDocument(getStoryboardDoc(storyId, boardId))
+            
+            this.storyboard = useDocument(getStoryboardDoc(storyId, boardId), { once: true })
+            
+            // this.readText(this.storyboard.text)
         }
+        
+
+
     }
 }
 </script>

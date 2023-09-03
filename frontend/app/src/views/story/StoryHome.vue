@@ -1,5 +1,5 @@
 <template>
-     <main id="story-home">
+    <main id="story-home">
         <PickModal v-if="showPickModal" @close="showPickModal = false" @complete="completePick" />
         <WriteModal v-if="showWriteModal" @close="showWriteModal = false" @complete="completeWrite" />
         <section id="hero-section">
@@ -25,37 +25,65 @@
 import LibrarySection from "@/components/story/LibrarySection.vue"
 import PickModal from "@/components/story/modals/PickModal.vue";
 import WriteModal from "@/components/story/modals/WriteModal.vue"
-
-export default{
-    name:"StoryHome",
-    components:{
-        LibrarySection,PickModal,WriteModal
+import { callOpenAiImage, callOpenAIGpt } from "@/open_ai_api";
+import { createStory, createStoryBoard } from "@/firebase"
+import { Timestamp } from "firebase/firestore"
+export default {
+    name: "StoryHome",
+    components: {
+        LibrarySection, PickModal, WriteModal
     },
-    data(){
+    data() {
         return {
-            showPickModal:false,
-            showWriteModal:false
+            showPickModal: false,
+            showWriteModal: false
         }
     },
-    methods:{
-        createStory(prompt){
-            console.log(prompt)
-            this.$router.push({name:'build-story',params:{id:"12323"}})
+    methods: {
+        createStoryClick(prompt) {
+            callOpenAiImage(prompt, 1).then(e => {
+
+                var image_url = e[0].url;
+                var data = {
+                    image: image_url,
+                    name: prompt
+                }
+                //create the story in firebase
+                createStory(data).then(story_ref => {
+                    //build initial storyboard
+                    callOpenAIGpt(`Generate a beginning of a story with the following guide ${prompt}.30 words maximum`).then(e => {
+                        var text = e.choices[0].message.content
+                        var storyboard = {
+                            text: text,
+                            image: image_url,
+                            datetime: Timestamp.now()
+                        }
+                        createStoryBoard(story_ref.id, storyboard).then(board_ref => {
+                            
+                            this.$store.dispatch("clearNarrative")
+                            this.$store.dispatch('setNarrative', text)
+                            this.$router.push({ name: 'build-story', params: { story_id: story_ref.id, board_id: board_ref.id } })
+                        })
+                    })
+                })
+
+
+            })
         },
-        completePick(e){
+        completePick(e) {
             this.showPickModal = false
-            if(e.write){
+            if (e.write) {
                 this.showWriteModal = true
             }
-            else{
-                this.createStory(e)
+            else {
+                this.createStoryClick(e)
             }
-            
+
         },
 
-        completeWrite(e){
+        completeWrite(e) {
             this.showWriteModal = false
-            this.createStory(e)
+            this.createStoryClick(e)
         }
     }
 }

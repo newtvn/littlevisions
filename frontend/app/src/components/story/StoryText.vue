@@ -10,6 +10,10 @@ export default {
         text: {
             required: true,
             type: String
+        },
+        delay:{
+            type: Number,
+            default: 100
         }
     },
     data(){
@@ -28,7 +32,7 @@ export default {
                     this.$emit('complete')
                     clearInterval(interval)
                 }
-            },100)
+            },this.$props.delay)
         }
     },
 

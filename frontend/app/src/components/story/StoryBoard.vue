@@ -15,22 +15,29 @@
 </template>
 <script>
 import StoryBoardItem from './StoryBoardItem.vue';
-import { useCollection } from 'vuefire'
-import {getStoryboard} from '@/firebase'
+// import { useCollection } from 'vuefire'
+import { getStoryboard } from '@/firebase'
+import { getDocs, orderBy, query } from 'firebase/firestore';
 
 export default {
     components: {
         StoryBoardItem
     },
-    data(){
+    data() {
         return {
             items: []
         }
     },
-    mounted(){
+    mounted() {
         var story_id = this.$route.params['story_id']
-        this.items = useCollection(getStoryboard(story_id))
-        
+        getDocs(query(getStoryboard(story_id), orderBy('datetime'))).then(e => {
+            // console.log(e.docs)
+            this.items = e.docs.map(doc => ({
+                ...doc.data(),
+                id: doc.id,
+            }))
+        })
+
     }
 }
 

@@ -6,17 +6,10 @@
 
 
     <template v-slot:body>
-      <input style="width: 90%" type="text" v-model="imagePrompt" id="image-placeholder"
-             placeholder="Enter image prompt that describes your next scene">
-
-      <button style="width: 10%;" @click="callImageWithSinglePrompt(this.imagePrompt,this.possibilities.length)">
-        Send
-      </button>
 
       <div class="possibility-list">
-        <PossibilityListCard v-for="possibility in possibilities" :key="possibility.id" :possibility="possibility"
-                             :final="possibility.final" :active="selectedPossibility===possibility"
-                             @click="()=>{selectedPossibility=possibility; textData = selectedPossibility.text}"/>
+        <PossibilityListCard v-for="possibility in paths" :key="possibility.id" :possibility="possibility"
+          :active="selectedPossibility === possibility" @click="selectedPossibility = possibility" />
 
       </div>
       <p class="possibility-text" v-if="selectedPossibility">{{ selectedPossibility.text }}</p>
@@ -36,10 +29,6 @@
           <i class="fas fa-chevron-right"></i>
         </button>
 
-        <button class="primary-btn circle-btn" @click="callImage">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-
       </div>
     </template>
   </BaseModal>
@@ -47,98 +36,103 @@
 <script>
 import BaseModal from '@/components/BaseModal.vue';
 import PossibilityListCard from '../PossibilityListCard.vue';
-import {callOpenAiImage, callOpenAIGpt} from "../../../open_ai_api.js";
+import {  callOpenAIGpt } from "../../../open_ai_api.js";
 
 export default {
   components: {
     BaseModal,
     PossibilityListCard
   },
+  props: {
+    possibilities: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
       selectedPossibility: null,
       imagePrompt: "",
       textData: "",
+      paths: []
 
-      possibilities: [
-        {
-          id: 1,
-          text: "A cat walked into the room",
-          image: "",
-          final: false,
-          imagePrompt: "A space image"
-        },
-        {
-          id: 2,
-          text: "A dog with a god complex stood on the podium",
-          image: "",
-          final: false,
-          imagePrompt: "An image of a cat"
-
-        },
-        {
-          id: 3,
-          text: "A bird flew from outside",
-          image: "",
-          final: false,
-          imagePrompt: "An image of a dog"
-
-        },
-        {
-          id: 4,
-          text: "A dog fell down",
-          image: "",
-          final: true,
-          imagePrompt: "An image of a man thinking"
-        }
-      ]
     }
   },
+
+  mounted(){
+    this.getPossibilityImages()
+  },
   methods: {
-    buttonClick() {
-      console.log("Build next part here")
-      this.$emit("proceed", this.selectedPossibility.id)
-      //            this.$emit('close');
+    getKeywordsForPossibility(text) {
+      return callOpenAIGpt(`Generate an image generation prompt given the following description:${text} max 10 words,keep it simple`)
     },
-    changeTextToSomeAI() {
-      callOpenAIGpt("Hello there who am I speaking to").then(text => {
-        console.log(text);
-        this.textData = text.choices[0].message.content
-      });
-    },
-    callImage() {
-      for (let i = 0; i < this.possibilities.length; i++) {
-        console.log(this.possibilities[i].imagePrompt)
+    getPossibilityImages() {
+      this.$props.possibilities.slice(0,4).forEach(possibility => {
+        this.getKeywordsForPossibility(`${possibility.text}.black and white concept art `).then(res => {
+          console.log(res)
+          // var text = res.choices[0].message.content
+          possibility['image'] = "https://www.shutterstock.com/shutterstock/photos/1808543779/display_1500/stock-photo-ability-circle-word-cloud-collage-concept-background-1808543779.jpg"
+          this.paths.push(possibility)
+          // callOpenAiImage(text, 1).then(e => {
+          //   console.log(e)
+          //   var url = e[0].url;
+          //   possibility['image'] = url;
+          //   this.paths.push(possibility)
 
-        callOpenAiImage(this.possibilities[i].imagePrompt).then(image => {
-          console.log(image);
-          this.possibilities[i].image = image[0].url;
+          // })
         })
-      }
+      })
     },
-    callImageWithSinglePrompt(Text, number) {
 
-      callOpenAiImage(Text, number)
-          .then(image => {
-            console.log(image);
-            for (let i = 0; i < this.possibilities.length; i++) {
-              this.possibilities[i].image = image[i].url;
-            }
-          })
+  buttonClick(){
+    this.$emit('proceed',this.selectedPossibility)
+  }
 
-      this.callTextWithMultiplePrompt();
-    },
-    callTextWithMultiplePrompt() {
+    // buttonClick() {
+    //   console.log("Build next part here")
+    //   this.$emit("proceed", this.selectedPossibility.id)
+    //   //            this.$emit('close');
+    // },
 
-      for (let i = 0; i < this.possibilities.length; i++) {
-        console.log(this.possibilities[i].imagePrompt)
+    // changeTextToSomeAI() {
+    //   callOpenAIGpt("Hello there who am I speaking to").then(text => {
+    //     console.log(text);
+    //     this.textData = text.choices[0].message.content
+    //   });
+    // },
+    // callImage() {
+    //   for (let i = 0; i < this.possibilities.length; i++) {
+    //     console.log(this.possibilities[i].imagePrompt)
 
-        callOpenAIGpt("Can you extend this story that begins by  " + this.possibilities[i].text + " max of 20 words").then(text => {
-          console.log(text);
-          this.possibilities[i].text = text.choices[0].message.content
-        })
-      }
-    }
+    //     callOpenAiImage(this.possibilities[i].imagePrompt).then(image => {
+    //       console.log(image);
+    //       this.possibilities[i].image = image[0].url;
+    //     })
+    //   }
+    // },
+    // callImageWithSinglePrompt(Text, number) {
+
+    //   callOpenAiImage(Text, number)
+    //       .then(image => {
+    //         console.log(image);
+    //         for (let i = 0; i < this.possibilities.length; i++) {
+    //           this.possibilities[i].image = image[i].url;
+    //         }
+    //       })
+
+    //   this.callTextWithMultiplePrompt();
+    // },
+    // callTextWithMultiplePrompt() {
+
+    //   for (let i = 0; i < this.possibilities.length; i++) {
+    //     console.log(this.possibilities[i].imagePrompt)
+
+    //     callOpenAIGpt("Can you extend this story that begins by  " + this.possibilities[i].text + " max of 20 words").then(text => {
+    //       console.log(text);
+    //       this.possibilities[i].text = text.choices[0].message.content
+    //     })
+    //   }
+    // }
   }
 }
 

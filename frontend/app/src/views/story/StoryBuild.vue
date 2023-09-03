@@ -1,7 +1,7 @@
 <template>
     <main id="story-build">
         <ProceedModal v-if="showProceedModal" @close="showProceedModal = false" @proceed="proceedStory"
-            :possibilities="possibilities" />
+            @proceedCustom="proceedStoryCustom" :possibilities="possibilities" />
         <div class="story-content">
             <StoryText :text="storyboard.text" @complete="textComplete = true" v-if="storyboard" />
 
@@ -25,7 +25,7 @@
 import StoryBoard from "@/components/story/StoryBoard.vue"
 import StoryText from "@/components/story/StoryText.vue"
 import ProceedModal from "@/components/story/modals/ProceedModal.vue"
-import { getStoryboardDoc, createStoryBoard } from '@/firebase'
+import { getStoryboardDoc, createStoryBoard, getStoryNarrative } from '@/firebase'
 import { useDocument } from 'vuefire'
 import { mapState } from "vuex"
 import { callOpenAIGpt } from "@/open_ai_api"
@@ -66,13 +66,18 @@ export default {
             })
 
         },
+
         buildPrompt() {
-            var narrative = localStorage.getItem('narrative')
-            var text = `Give me 4 possible paths in 20 words that extend the following narrative. Your response should be a valid extension on the narrative. Number the paths only using the 1. system: ${narrative}`
-            return text
+            var story_id = this.$route.params['story_id']
+
+            return getStoryNarrative(story_id).then(narrative => {
+
+                return `Give me 4 possible paths in 30 words that extend the following narrative. Your response should be a valid extension on the narrative. Number the paths only using the 1. system: ${narrative}`
+            })
         },
         async getPossibilities() {
-            callOpenAIGpt(this.buildPrompt()).then(e => {
+            this.buildPrompt().then(prompt=>{
+                callOpenAIGpt(prompt).then(e => {
                 var message = e.choices[0].message.content
                 var split_message = message.split("\n")
                 // console.log(split_message)
@@ -84,19 +89,25 @@ export default {
                     })
                 });
             })
+            })
+            
 
         },
 
 
     },
     mounted() {
-        // this.getPossibilities()
+        this.getPossibilities()
+
         var storyId = this.$route.params['story_id']
         var boardId = this.$route.params['board_id']
 
         if (boardId) {
             this.storyboard = useDocument(getStoryboardDoc(storyId, boardId))
         }
+        getStoryNarrative(storyId).then(e=>{
+            console.log(e)
+        })
 
 
     }

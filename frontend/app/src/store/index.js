@@ -23,7 +23,8 @@ export default createStore({
     },
     clearNarrative(){
       localStorage.removeItem("narrative")
-    }
+    },
+    
   },
   modules: {},
 });

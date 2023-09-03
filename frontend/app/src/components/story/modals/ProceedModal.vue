@@ -95,7 +95,7 @@ export default {
           // possibility['image'] = "https://www.shutterstock.com/shutterstock/photos/1808543779/display_1500/stock-photo-ability-circle-word-cloud-collage-concept-background-1808543779.jpg"
           // this.paths.push(possibility)
           callOpenAiImage(text, 1).then(e => {
-            console.log(e)
+            
             var url = e[0].url;
             possibility['image'] = url;
             this.paths.push(possibility)

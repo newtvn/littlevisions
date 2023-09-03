@@ -31,10 +31,9 @@ import StoryBoard from "@/components/story/StoryBoard.vue"
 import StoryText from "@/components/story/StoryText.vue"
 import ProceedModal from "@/components/story/modals/ProceedModal.vue"
 import { getStoryboardDoc, createStoryBoard, getStoryNarrative, pushSoundToFirebase } from '@/firebase'
-import { useDocument } from 'vuefire'
 import { mapState } from "vuex"
 import { callOpenAIGpt } from "@/open_ai_api"
-import { Timestamp } from "firebase/firestore"
+import { Timestamp ,getDoc} from "firebase/firestore"
 import tts from "@/eleven_labs"
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
@@ -66,7 +65,6 @@ export default {
         },
         readText(text) {
             if (this.storyboard) {
-
                 if (this.storyboard.audio_url) {
                     this.audio_url = this.storyboard.audio_url
                     return
@@ -79,6 +77,7 @@ export default {
                         this.pushSpeechToFirebase(blob)
                         const url = URL.createObjectURL(blob);
                         this.audio_url = url
+                        return ;
                     })
                 }
             }
@@ -103,6 +102,9 @@ export default {
             }).finally(() => {
                 this.isLoading = false
             })
+
+
+
 
         },
 
@@ -136,13 +138,15 @@ export default {
 
     },
     watch: {
-        storyboard(oldValue, newvalue) {
+        // storyboard(oldValue, newvalue) {
+        //     this.$nextTick(() => {
+        //         if (newvalue != undefined) {
 
-            if (newvalue) {
-                
-                this.readText(newvalue.text)
-            }
-        }
+        //             this.readText(newvalue.text)
+        //         }
+        //     })
+
+        // }
     },
     mounted() {
         this.getPossibilities()
@@ -151,8 +155,16 @@ export default {
         var boardId = this.$route.params['board_id']
 
         if (boardId) {
+            getDoc(getStoryboardDoc(storyId,boardId)).then(doc=>{
+                var data = {
+                    ...doc.data(),
+                    id: doc.id
+                }
+                this.storyboard = data
+                this.readText(data['text'])
+            })
 
-            this.storyboard = useDocument(getStoryboardDoc(storyId, boardId), { once: true })
+            // this.storyboard = useDocument(getStoryboardDoc(storyId, boardId), { once: true })
 
             // this.readText(this.storyboard.text)
         }

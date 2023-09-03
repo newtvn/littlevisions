@@ -4,6 +4,7 @@ import StoryView from "../views/StoryView.vue";
 import StoryBuild from "../views/story/StoryBuild.vue";
 import StoryHome from "../views/story/StoryHome.vue";
 import StoryPlay from "../views/story/StoryPlay.vue";
+import FlipBookMental from "@/components/FlipBookMental.vue";
 const routes = [
   {
     path: "/",
@@ -32,6 +33,12 @@ const routes = [
     name: "play-story",
     component: StoryPlay,
   },
+  {
+    path: "/flipbook",
+    name: "flip",
+    component:FlipBookMental,
+
+  }
 ];
 
 const router = createRouter({

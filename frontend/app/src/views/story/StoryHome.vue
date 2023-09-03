@@ -1,5 +1,6 @@
 <template>
     <main id="story-home">
+        <Loading v-model:active="isLoading" :can-cancel="false" :is-full-page="true" />
         <PickModal v-if="showPickModal" @close="showPickModal = false" @complete="completePick" />
         <WriteModal v-if="showWriteModal" @close="showWriteModal = false" @complete="completeWrite" />
         <section id="hero-section">
@@ -28,19 +29,23 @@ import WriteModal from "@/components/story/modals/WriteModal.vue"
 import { callOpenAiImage, callOpenAIGpt } from "@/open_ai_api";
 import { createStory, createStoryBoard } from "@/firebase"
 import { Timestamp } from "firebase/firestore"
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 export default {
     name: "StoryHome",
     components: {
-        LibrarySection, PickModal, WriteModal
+        LibrarySection, PickModal, WriteModal, Loading
     },
     data() {
         return {
             showPickModal: false,
-            showWriteModal: false
+            showWriteModal: false,
+            isLoading: false
         }
     },
     methods: {
         createStoryClick(prompt) {
+            this.isLoading = true
             callOpenAiImage(prompt, 1).then(e => {
 
                 var image_url = e[0].url;
@@ -59,7 +64,7 @@ export default {
                             datetime: Timestamp.now()
                         }
                         createStoryBoard(story_ref.id, storyboard).then(board_ref => {
-                            
+
                             this.$store.dispatch("clearNarrative")
                             this.$store.dispatch('setNarrative', text)
                             this.$router.push({ name: 'build-story', params: { story_id: story_ref.id, board_id: board_ref.id } })
@@ -68,6 +73,8 @@ export default {
                 })
 
 
+            }).finally(() => {
+                this.loading = false
             })
         },
         completePick(e) {
@@ -76,7 +83,7 @@ export default {
                 this.showWriteModal = true
             }
             else {
-                this.createStoryClick(e)
+                this.createStoryClick(e.choice)
             }
 
         },

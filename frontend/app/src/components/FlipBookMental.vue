@@ -1,15 +1,35 @@
-<script setup>
 
-import FlipBook from "@/components/Flipbook.vue";
-</script>
 
 <template>
-  <FlipBook
-      :story="[{description:'Hello world i am a boy',imageUrl:'https://images.unsplash.com/photo-1663344010224-a89a22f14bb7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60'}
-      ,{description:'How was your day',imageUrl:'https://images.unsplash.com/photo-1663344010224-a89a22f14bb7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60'},
-       {description:'Hinderance',imageUrl:'https://images.unsplash.com/photo-1663344010224-a89a22f14bb7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60'}]"></FlipBook>
+  <FlipBook :story="stories" v-if="stories.length>0"/>
+
 </template>
+<script>
 
-<style scoped lang="css">
+import FlipBook from "@/components/Flipbook.vue";
+import { getStoryboard } from '@/firebase'
+import { getDocs, orderBy, query } from 'firebase/firestore';
+export default {
+  components: {
+  FlipBook
+  },
+  data(){
+    return {
+      stories: []
+    }
+  },
 
-</style>
+  mounted() {
+    var storyId = this.$route.params['story_id']
+    console.log(storyId)
+    getDocs(query(getStoryboard(storyId), orderBy('datetime'))).then(e => {
+      console.log(e)
+      this.stories = e.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id,
+      }))
+    })
+  }
+}
+</script>
+<style scoped lang="css"></style>

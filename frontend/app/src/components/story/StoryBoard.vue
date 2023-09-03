@@ -2,8 +2,12 @@
     <div class="story-build-sidebar">
         <div class="storyboard-header">
             <div class="center-container">
-
-                <h4>Your Storyboard</h4>
+                <div class="row default-gap">
+                    <h4>Storyboard</h4>
+                    <button class="circle-btn primary-btn" @click="playButton">
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
             </div>
         </div>
         <div class="storyboard-body">
@@ -26,6 +30,13 @@ export default {
     data() {
         return {
             items: []
+        }
+    },
+    methods:{
+        playButton(){
+        var story_id = this.$route.params['story_id']
+
+            this.$router.push({name: 'play-story',params:{story_id:story_id}})
         }
     },
     mounted() {

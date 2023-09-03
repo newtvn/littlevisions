@@ -69,3 +69,7 @@ export async function pushSoundToFirebase(story_id, board_id, blob) {
     })
   });
 }
+export async function pushImageToFirebase(board_id,blob){
+  const imageRef = ref(storage, `image/${board_id}`);
+  return uploadBytes(imageRef,blob).then(snapshot=>getDownloadURL(snapshot.ref))
+}

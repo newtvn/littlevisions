@@ -1,5 +1,13 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, doc, addDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  doc,
+  addDoc,
+  query,
+  orderBy,
+  getDocs,
+} from "firebase/firestore";
 // ... other firebase imports
 const firebaseConfig = {
   apiKey: "AIzaSyBy34e1q5g0MKM4rdXpdVcpim6ZqHve4Z0",
@@ -33,3 +41,14 @@ export const createStoryBoard = (story_id, e) => {
   );
   return addDoc(storyboard_collection, e);
 };
+
+export async function getStoryNarrative(story_id) {
+  var q = query(getStoryboard(story_id), orderBy("datetime"));
+  var docs = await getDocs(q);
+  var narrative = "";
+  docs.docs.map((data) => {
+    narrative += data.data().text;
+  });
+  console.log(narrative)
+  return narrative;
+}

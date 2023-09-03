@@ -4,10 +4,13 @@ import {
   collection,
   doc,
   addDoc,
+  setDoc,
   query,
   orderBy,
   getDocs,
 } from "firebase/firestore";
+
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 // ... other firebase imports
 const firebaseConfig = {
   apiKey: "AIzaSyBy34e1q5g0MKM4rdXpdVcpim6ZqHve4Z0",
@@ -21,6 +24,7 @@ export const firebaseApp = initializeApp(firebaseConfig);
 
 // used for the firestore refs
 export const firestore = getFirestore(firebaseApp);
+export const storage = getStorage(firebaseApp);
 // here we can export reusable database references
 export const storiesCollection = collection(firestore, "stories");
 
@@ -49,6 +53,19 @@ export async function getStoryNarrative(story_id) {
   docs.docs.map((data) => {
     narrative += data.data().text;
   });
-  console.log(narrative)
+  console.log(narrative);
   return narrative;
+}
+
+export async function pushSoundToFirebase(story_id, board_id, blob) {
+  const soundRef = ref(storage, `speech/${board_id}`);
+  uploadBytes(soundRef, blob).then((snapshot) => {
+    getDownloadURL(snapshot.ref).then(downloadUrl=>{
+
+      var storyboard_doc = getStoryboardDoc(story_id, board_id);
+      setDoc(storyboard_doc, { audio_url: downloadUrl },{ merge: true });
+    }).catch(e=>{
+        console.log(e)
+    })
+  });
 }

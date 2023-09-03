@@ -1,4 +1,6 @@
 <template>
+  <Loading v-model:active="isLoading" :can-cancel="false" :is-full-page="true" />
+
   <BaseModal>
     <template v-slot:header>
       <p class="possibility-subtitle">How Should Your Story Proceed?</p>
@@ -47,11 +49,13 @@ import BaseModal from '@/components/BaseModal.vue';
 import PossibilityListCard from '../PossibilityListCard.vue';
 import { callOpenAIGpt, callOpenAiImage } from "../../../open_ai_api.js";
 import { getStoryNarrative } from '@/firebase';
-
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 export default {
   components: {
     BaseModal,
-    PossibilityListCard
+    PossibilityListCard,
+    Loading
   },
   props: {
     possibilities: {
@@ -64,7 +68,7 @@ export default {
       selectedPossibility: null,
       imagePrompt: "",
       textData: null,
-
+      isLoading: false,
       paths: []
 
     }
@@ -103,6 +107,7 @@ export default {
 
     buttonClick() {
       if (this.textData != null && this.textData !== "") {
+        this.isLoading = true
         this.getCustomExtendedNarrative(this.textData).then((e) => {
           var text = e.choices[0].message.content
           console.log(text)
@@ -119,6 +124,8 @@ export default {
             })
           })
 
+        }).finally(() => {
+          this.isLoading = false
         })
       }
       else {

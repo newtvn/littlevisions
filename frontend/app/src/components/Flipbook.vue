@@ -3,7 +3,7 @@ export default {
 
   name: "FlipBook",
   data() {
-    return {z: 1, si: 1};
+    return { z: 1, si: 0 };
   },
   props: {
     story: Array,
@@ -67,18 +67,18 @@ export default {
 <template>
   <div class="book-section">
     <div class="container">
-      <template v-for="(item,position) in this.story" v-bind:key="item">
-        <div class="right" v-if="position===0">
-          <figure class="back" id="back-cover">{{ item.description }}</figure>
-          <figure class="front"><img class="image-flip" :src="item.imageUrl"/></figure>
+      <template v-for="(item, position) in this.story" v-bind:key="item">
+        <div class="right" v-if="position === 0">
+          <figure class="back story-text" id="back-cover">{{ item.text }}</figure>
+          <figure class="front"><img class="image-flip" :src="item.image" /></figure>
         </div>
-        <div v-else-if="position===this.story.length-1" class="right">
-          <figure class="back">{{ item.description }}</figure>
-          <figure class="front" id="cover"><img class="image-flip" :src="item.imageUrl"/></figure>
+        <div v-else-if="position === this.story.length - 1" class="right">
+          <figure class="back story-text">{{ item.text }}</figure>
+          <figure class="front" id="cover"><img class="image-flip" :src="item.image" /></figure>
         </div>
         <div v-else class="right">
-          <figure class="back">{{ item.description }}</figure>
-          <figure class="front"><img :src="item.imageUrl" class="image-flip"/></figure>
+          <figure class="back story-text">{{ item.text }}</figure>
+          <figure class="front"><img :src="item.image" class="image-flip" /></figure>
         </div>
       </template>
     </div>
@@ -117,7 +117,7 @@ body {
   text-align: center;
 }
 
-.book-section > .container {
+.book-section>.container {
   height: 75vh;
   width: 80vw;
   position: relative;
@@ -128,7 +128,7 @@ body {
   perspective: 1200px;
 }
 
-.container > .right {
+.container>.right {
   position: absolute;
   height: 100%;
   width: 50%;
@@ -136,13 +136,14 @@ body {
   transform-style: preserve-3d;
 }
 
-.book-section > .container > .right {
+.book-section>.container>.right {
   right: 0;
   transform-origin: left;
   border-radius: 10px 0 0 10px;
 }
 
-.right > figure.front, .right > figure.back {
+.right>figure.front,
+.right>figure.back {
   margin: 0;
   height: 100%;
   width: 100%;
@@ -156,13 +157,13 @@ body {
   overflow: hidden;
 }
 
-.right > figure.front {
+.right>figure.front {
   background-position: right;
   border-radius: 0 10px 10px 0;
   box-shadow: 2px 2px 15px -2px rgba(0, 0, 0, 0.2);
 }
 
-.right > figure.back {
+.right>figure.back {
   background-position: left;
   border-radius: 10px 0 0 10px;
   box-shadow: -2px 2px 15px -2px rgba(0, 0, 0, 0.2);
@@ -185,7 +186,7 @@ body {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.book-section > button {
+.book-section>button {
   border: 2px solid #ef9f00;
   background-color: transparent;
   color: #ef9f00;
@@ -196,28 +197,30 @@ body {
   transition: 0.3s ease-in-out;
 }
 
-.book-section > button:focus, .book-section > button:active {
+.book-section>button:focus,
+.book-section>button:active {
   outline: none;
 }
 
-.book-section > p {
+.book-section>p {
   color: rgba(0, 0, 0, 0.7);
   font-family: calibri;
   font-size: 24px;
   margin: 15px 0;
 }
 
-.book-section > p > a {
+.book-section>p>a {
   text-decoration: none;
   color: #ef9f00;
 }
 
-.book-section > button:hover {
+.book-section>button:hover {
   background-color: #ef9f00;
   color: #fff;
 }
 
-.front#cover, .back#back-cover {
+.front#cover,
+.back#back-cover {
   background-color: #ffcb63;
   font-family: calibri;
   text-align: left;
@@ -232,5 +235,4 @@ body {
   color: rgba(0, 0, 0, 0.8);
   font-size: 14px;
 
-}
-</style>
+}</style>

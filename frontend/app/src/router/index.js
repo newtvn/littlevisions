@@ -37,8 +37,8 @@ const routes = [
     component: StoryPlay,
   },
   {
-    path: "/flipbook",
-    name: "flip",
+    path: "/flipbook/:story_id",
+    name: "flipbook",
     component:FlipBookMental,
 
   }

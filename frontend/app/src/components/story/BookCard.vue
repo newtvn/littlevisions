@@ -23,7 +23,7 @@
                 alt="" class="circle-image small">
         </div>
 
-        <button class="primary-btn circle-btn">
+        <button class="primary-btn circle-btn" @click="readClick">
             <i class="fas fa-book"></i>
         </button>
     </div>
@@ -58,6 +58,11 @@ export default {
     data(){
         return {
             storyboard: []
+        }
+    },
+    methods:{
+        readClick(){
+            this.$router.push({name:'flipbook',params:{story_id: this.book.id}})
         }
     },
     mounted(){

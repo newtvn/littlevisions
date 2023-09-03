@@ -17,8 +17,8 @@
             </div>
             <hr class="divider">
             <div class="template-choices">
-                <ChoiceCard v-for="choice in choices" :key="choice.name" :choice="choice" @click="choiceSelect(choice.name)"
-                    :selected="selectedChoice === choice.name" />
+                <ChoiceCard v-for="choice in choices" :key="choice.name" :choice="choice" @click="choiceSelect(choice.text)"
+                    :selected="selectedChoice === choice.name"  />
             </div>
         </template>
 
@@ -50,11 +50,13 @@ export default {
             choices: [
                 {
                     name: "Dragons",
-                    image: "https://images.unsplash.com/photo-1515263487990-61b07816b324?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8ZHJhZ29uc3xlbnwwfHwwfHw%3D&ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60"
+                    image: "https://images.unsplash.com/photo-1515263487990-61b07816b324?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8ZHJhZ29uc3xlbnwwfHwwfHw%3D&ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+                    text: "A dragon got stuck in a cave"
                 },
                 {
                     name: "Princess",
-                    image: "https://media.istockphoto.com/id/528631226/photo/little-princess-girl-pointing-her-magic-wand-towards-camera.jpg?s=612x612&w=0&k=20&c=E1zXn7OYETch7B388zXvxRSVArBkNyDri4jk8IdzkIE="
+                    image: "https://media.istockphoto.com/id/528631226/photo/little-princess-girl-pointing-her-magic-wand-towards-camera.jpg?s=612x612&w=0&k=20&c=E1zXn7OYETch7B388zXvxRSVArBkNyDri4jk8IdzkIE=",
+                    text: "A princess with a tiara"
                 }
             ]
         }

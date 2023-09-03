@@ -18,7 +18,7 @@
             <hr class="divider">
             <div class="template-choices">
                 <ChoiceCard v-for="choice in choices" :key="choice.name" :choice="choice" @click="choiceSelect(choice.text)"
-                    :selected="selectedChoice === choice.name"  />
+                    :selected="selectedChoice === choice.text"  />
             </div>
         </template>
 
@@ -68,7 +68,7 @@ export default {
         },
         choiceSelect(name) {
             this.writeSelected = false
-            this, this.selectedChoice = name
+            this.selectedChoice = name
         },
         buttonClick() {
             this.$emit('complete',{

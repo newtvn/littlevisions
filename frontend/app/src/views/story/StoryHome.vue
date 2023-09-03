@@ -83,7 +83,7 @@ export default {
                 this.showWriteModal = true
             }
             else {
-                this.createStoryClick(e)
+                this.createStoryClick(e.choice)
             }
 
         },

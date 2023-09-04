@@ -5,7 +5,7 @@
                 <div class="center-container">
 
                     <StoryText :text="activeStory.text" v-if="activeStory" :key="activeStory.text" @complete="textComplete" :delay="70"/>
-                    <audio :src="activeStory.audio_url" controls autoplay v-if="activeStory" style="display: none;"></audio>
+                    <audio :src="activeStory.audio_url" controls autoplay v-if="activeStory"></audio>
                 </div>
             </div>
             <div class="story-image-section">

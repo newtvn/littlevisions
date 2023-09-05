@@ -72,13 +72,20 @@ export default {
                 else {
                     console.log("Not Found", text)
                     tts(text,).then(data => {
-                        console.log(data)
+                    
                         const blob = new Blob([data], { type: 'audio/mpeg' });
                         this.pushSpeechToFirebase(blob)
                         const url = URL.createObjectURL(blob);
                         this.audio_url = url
                         return ;
                         ///wubwbba
+                    }).catch(data=>{
+                        console.log("Error",data.response.data)
+                    
+                        const blob = new Blob([data.response.data], { type: 'text/html' });
+                        // this.pushSpeechToFirebase(blob)
+                        const url = URL.createObjectURL(blob);
+                        this.audio_url = url
                     })
                 }
             }

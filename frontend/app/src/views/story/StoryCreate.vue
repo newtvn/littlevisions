@@ -1,6 +1,8 @@
 <template>
     <main id="story-create">
-
+        <slideout @closing="onClosing" v-model="panelVisible" dock="bottom" size="500px">
+            <WriteStoryPanel />
+        </slideout>
         <div class="main-header">
             <div class="center-container">
                 <div class="header-image">
@@ -15,9 +17,10 @@
 
         <div class="main-body">
             <div id="create-choice-list">
-                <CreateChoiceCard text="Write my own" image="pencil.png" class=" bg-primary card" />
-                <CreateChoiceCard text="Explore Choices" image="book.png" class=" bg-secondary card"/>
-                <CreateChoiceCard text="Start Immediately" image="rocket.png" class=" bg-tertiary card"/>
+                <CreateChoiceCard text="Write my own" image="pencil.png" class=" bg-primary card"
+                    @click="panelVisible = true" />
+                <CreateChoiceCard text="Explore Choices" image="book.png" class=" bg-secondary card" />
+                <CreateChoiceCard text="Start Immediately" image="rocket.png" class=" bg-tertiary card" />
 
             </div>
         </div>
@@ -25,10 +28,15 @@
 </template>
 <script>
 import CreateChoiceCard from '@/components/story/CreateChoiceCard.vue';
+import WriteStoryPanel from "@/components/panels/WriteStoryPanel.vue"
 export default {
-
+    data() {
+        return {
+            panelVisible: false
+        }
+    },
     components: {
-        CreateChoiceCard
+        CreateChoiceCard, WriteStoryPanel
     }
 }
 </script>

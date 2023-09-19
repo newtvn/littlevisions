@@ -1,13 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');@import "./variables.scss";
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap");
+@import "./variables.scss";
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Fredoka", sans-serif;
 }
-body{
-    color: $text-black;
-    // background-color: $body-background;
+body {
+  color: $text-black;
+  // background-color: $body-background;
 }
 .row {
   display: flex;
@@ -16,7 +17,7 @@ body{
 
 button {
   cursor: pointer;
-    text-align: center;
+  text-align: center;
   .row {
     gap: 7px;
     // width: fit-content;
@@ -24,7 +25,7 @@ button {
   }
 }
 
-main{
+main {
   padding-left: 100px;
   padding-right: 100px;
 }
@@ -42,7 +43,6 @@ main{
 .button-prefix {
   font-weight: 600;
   font-size: small;
-  
 }
 .center-container {
   display: grid;
@@ -54,56 +54,71 @@ main{
 .space-btn {
   justify-content: space-between;
 }
-.tiny-image{
-    width: 25px;
-    height: 25px;
-    object-fit: cover;
-    border-radius: 50%;
+.tiny-image {
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 .profile-image {
   border: 2px solid $text-black;
 }
-.caption{
-    font-size: small;
-    color: $muted-grey;
+.caption {
+  font-size: small;
+  color: $muted-grey;
 }
-.column{
-    display: flex;
-    flex-direction: column;
+.column {
+  display: flex;
+  flex-direction: column;
 }
-.divider{
-    margin: $default-padding*2 0;
+.divider {
+  margin: $default-padding * 2 0;
 }
-input{
-    border: 1.5px solid $text-black;
-    padding: $default-padding;
-    outline: none;
+input {
+  border: 1.5px solid $text-black;
+  padding: $default-padding;
+  outline: none;
 }
-.text-field{
-    width: 100%;
-    min-height: 80px;
+.text-field {
+  width: 100%;
+  min-height: 80px;
 }
-.fitted-container{
-    width: fit-content;
+.fitted-container {
+  width: fit-content;
 }
-.left-auto{
+.left-auto {
   margin-left: auto;
 }
-.bg-primary{
+.bg-primary {
   background-color: $primary-color;
 }
-.bg-secondary{
+.bg-secondary {
   background-color: $secondary-color;
 }
-.bg-tertiary{
+.bg-tertiary {
   background-color: $tertiary-color;
 }
-.card-btn{
+.card-btn {
   background-color: white;
   width: fit-content;
-  padding: $default-padding $default-padding*2;
+  padding: $default-padding $default-padding * 2;
   border-radius: 20px;
   border: none;
   font-weight: 500;
   font-size: 15px;
 }
+
+.avatar-speak {
+  display: flex;
+  img {
+    max-height: 200px;
+  }
+  .avatar-chat-bubble {
+    align-self: start;
+    font-weight: 500;
+  }
+}
+
+@import "./chat-bubble.scss";
+@import "./buttons.scss";
+@import "./forms.scss";

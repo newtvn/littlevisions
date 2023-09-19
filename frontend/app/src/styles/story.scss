@@ -163,3 +163,34 @@
   justify-content: space-between;
   margin-top: 50px;
 }
+.slideout-body,
+.footer-container {
+  padding: $default-padding * 2 50px;
+}
+.slideout-panel .header-container {
+  margin: $default-padding 0;
+}
+.header-container {
+  .avatar-speak {
+    width: fit-content;
+    margin: 0 auto;
+    .avatar-chat-bubble {
+      background-color: $primary-color;
+    }
+  }
+}
+.slideout-body {
+  .subtitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .textarea {
+    height: 100px;
+  }
+}
+.slideout-footer {
+  button {
+    height: 50px;
+  }
+}

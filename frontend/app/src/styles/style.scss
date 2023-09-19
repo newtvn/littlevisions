@@ -1,21 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap");
-@import "./variables.scss";
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');@import "./variables.scss";
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "Fredoka", sans-serif;
 }
 body{
     color: $text-black;
+    // background-color: $body-background;
 }
 .row {
   display: flex;
   align-items: center;
 }
-main {
-  padding: $default-padding $default-padding * 3;
-}
+
 button {
   cursor: pointer;
     text-align: center;
@@ -25,32 +23,10 @@ button {
     justify-content: center;
   }
 }
-.primary-btn {
-  background-color: $secondary-color;
-  color: white;
-  border: 2px solid $text-black;
-  font-weight: 500;
-  transition: scale 0.05s ease-in;
-  &:hover {
-    scale: 1.02;
-    border: 2.1px solid $text-black;
-  }
-}
-.tertiary-btn {
-  background-color: $tertiary-color;
-  color: white;
-  border: 2px solid $text-black;
-  font-weight: 500;
-  transition: scale 0.05s ease-in;
-  &:hover {
-    scale: 1.02;
-    border: 2.1px solid $text-black;
-  }
-}
-.outline-btn{
-    border: 1px solid black;
-    background: transparent;
-    color: black;
+
+main{
+  padding-left: 100px;
+  padding-right: 100px;
 }
 .secondary-background {
   background-color: $primary-color;
@@ -112,4 +88,22 @@ input{
 }
 .left-auto{
   margin-left: auto;
+}
+.bg-primary{
+  background-color: $primary-color;
+}
+.bg-secondary{
+  background-color: $secondary-color;
+}
+.bg-tertiary{
+  background-color: $tertiary-color;
+}
+.card-btn{
+  background-color: white;
+  width: fit-content;
+  padding: $default-padding $default-padding*2;
+  border-radius: 20px;
+  border: none;
+  font-weight: 500;
+  font-size: 15px;
 }

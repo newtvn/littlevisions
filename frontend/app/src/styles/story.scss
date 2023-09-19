@@ -1,301 +1,165 @@
 @import "./variables.scss";
-#start-story {
-  margin-top: 200px;
-  width: fit-content;
-  margin-left: auto;
+.greeting-text {
+  font-weight: 600;
+  font-size: 25px;
 }
-#library-section {
-  margin-left: -$default-padding * 3;
-  margin-right: -$default-padding * 3;
-  margin-top: $default-padding * 5;
-  background-color: #ebe6e5;
-  color: $text-black;
-  min-height: 300px;
-  height: 100%;
-  padding: $default-padding * 3;
-  color: white;
+#story-home {
+  .main-section {
+    margin: 50px 0;
+  }
+}
+.card {
   border-radius: 10px;
-  display: grid;
-  grid-template-rows: 10% 90%;
-  .section-title {
-    font-weight: 600;
-    color: $text-black;
-  }
 }
-#library-section-books-list {
-  display: flex;
-  gap: 40px;
-}
-#library-section-books {
-  height: 100%;
-}
-.feature-card {
-  background-color: white;
-  padding: $default-padding $default-padding * 2;
-  position: relative;
-  min-width: 250px;
-  color: $text-black;
-  button {
-    position: absolute;
-    bottom: -10px;
-    right: -10px;
-    i {
-      font-size: 1.2em;
-    }
-  }
-  .book-image-background {
-    width: 105px;
-    height: 105px;
-    background-color: #e5e5e5;
-    display: grid;
-    place-items: center;
-  }
-  .book-image {
-    width: 100px;
-    height: 100px;
-    // object-fit: cover;
-    position: relative;
-  }
-  .book-title {
-    font-weight: 600;
-  }
-  .book-author {
-    font-weight: 500;
-    margin-top: $default-padding/2;
-    p {
-      margin-left: $default-padding/2;
-    }
-  }
-}
-.feature-storyboard {
-  display: flex;
-  gap: 10px;
-  margin-top: $default-padding;
-  img {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-  }
-}
-#pick-modal-buttons {
-  gap: 20px;
-}
-.template-choices {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin:$default-padding*2 0;
-}
-.template-choice-card {
-  background-color: white;
+.home-card {
+  color: white;
   cursor: pointer;
-  width: fit-content;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  gap: $default-padding;
-  padding: $default-padding/2 $default-padding;
-  font-size: 0.9em;
-  font-weight: 500;
-  border-radius: 7px;
-  transition: all .2s ease-in-out;
-  color: $text-black;
-}
-.template-choice-card.selected{
-    background-color: $tertiary-color;
-    // color: white;
-    border: 2px solid $text-black;
-    border-radius: 0px;
-    // font-weight: 600;
-    scale: 1.05;
-}
-#pick-modal{
-    .button-prefix{
-        font-size: small;
+  position: relative;
+  padding: $default-padding * 2;
+  min-height: 200px;
+  flex-grow: 1;
+  transition: scale 0.3s ease-out;
+  .card-content {
+    max-width: 60%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &:hover {
+    scale: 1.01;
+
+    img {
+      scale: 1.001;
     }
+  }
+  h2 {
+    font-weight: 600;
+  }
+  button {
+    min-width: 100px;
+    font-size: 20px;
+  }
 }
-.modal-footer{
-    .button-row{
-        margin-top: $default-padding*2;
-        width: fit-content;
-        margin-left: auto;
-    }
+.home-card.bg-primary {
+  button {
+    color: $primary-color;
+  }
+}
+.home-card.bg-secondary {
+  button {
+    color: $secondary-color;
+  }
+}
+.home-card.bg-tertiary {
+  button {
+    color: $tertiary-color;
+  }
+}
+.home-card-description {
+  font-size: 16px;
+  line-height: 2;
+}
+#home-cards-secondary-container {
+  gap: 25px;
+  margin-top: 25px;
+}
+.home-card .home-card-image {
+  height: 250px;
+  position: absolute;
+  right: $default-padding * 2;
+  top: 0;
+  transition: scale 0.4s ease-out;
 }
 
-#story-build{
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-rows: 80vh 20vh;
-    grid-template-columns: 85vw 13vw;
-}
-.story-build-sidebar{
-    grid-row-start: 1;
-    grid-row-end: 3;
-    grid-column-start: 2;
-    background-color: $primary-color;
-    padding: $default-padding $default-padding*2;
-}
-.storyboard-header h4{
-    font-weight: 600;
-    color: white;
-    font-size: smaller;
-}
-.storyboard-body{
-    height: 100%;
-}
-.story-content{
-    padding: $default-padding*2 $default-padding*4;
-    align-self: center;
-}
-.story-text{
-    font-size: 1.8em;
-    line-height: 2;
-}
-.storyboard-list{
-    margin-top: $default-padding;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-.story-footer{
-    align-self: self-end;
-    padding: $default-padding*2 $default-padding;
-    .fitted-container{
-        margin-left: auto;
-    }
-}
-.storyboard-list{
-  gap: 15px;
-  height: 95%;
-  overflow-y: scroll;
-}
-::-webkit-scrollbar {
-  display: none;
-}
-.storyboard-item{
-  width: 120px;
-  height: 120px;
-  background-color: white;
-  border-radius: 10px;
-  scale: 0.8;
-  img{
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
+//Story CREATE
+.header-image {
+  position: relative;
+
+  // width: 80px;
+  // height: 80px;
+
+  &::before {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    background-color: rgba($color: $primary-color, $alpha: 0.7);
+    border-radius: 50%;
+    z-index: -1;
+    margin: 0 auto;
+  }
+
+  img {
+    width: 70px;
+
+    z-index: 2;
+    margin: 0 auto;
   }
 }
-.storyboard-item.active{
-  scale: 1;
-  // border: 4px solid $text-black;
-}
-.possibility-subtitle{
+.main-header h1 {
   margin: $default-padding 0;
   font-weight: 600;
-  font-size: larger;
-;
-  span{
-    color: $tertiary-color;
+}
+
+.scale-hover {
+  transition: scale 0.3s ease-out;
+
+  &:hover {
+    scale: 1.05;
   }
 }
-.possibility-header{
-  margin: $default-padding 0;
-  font-weight: 500;
-  font-size: 0.9em;
-  color: rgba($color: white, $alpha: 0.9);
-  span{
-    color: $tertiary-color;
-  }
-}
-.textarea{
-  min-height: 70px;
-}
-.form-container{
-  input{
-    width: 100%;
-    
-  }
-}
-.possibility-list{
-  margin: $default-padding*2 0;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: space-between;
-}
-.possibility-list-card{
+.create-choice-card {
+  width: 250px;
+  height: 280px;
+  position: relative;
+  // overflow: hidden;
+
   cursor: pointer;
-  img{
-    width: 150px;
-    height: 150px;
+  &:hover {
+    img {
+      scale: 1.07;
+    }
+  }
+  img {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    display: block;
+    margin: 0 auto;
+    transition: scale 0.35s ease-out;
+    height: 240px;
+  }
+  svg {
+    position: absolute;
+    bottom: 0;
+    // display: none;
+    // height: 200px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 100%;
+    fill: $body-background;
+    // fill: ra($color: $text-black, $alpha: 0.5);
+    // mix-blend-mode: multiply;
+    overflow: hidden;
+  }
+  h2 {
+    position: absolute;
+    bottom: 3px;
+    left: 0;
+    right: 0;
+    font-size: 20px;
+    // color: white;
+    z-index: 2;
+    text-align: center;
+    font-weight: 600;
   }
 }
-.possibility-list-card.active{
-  border: 2px solid $text-black;
-  scale: 1.1;
-}
-.possibility-text{
-  line-height: 2;
-  font-size: 1em;
-  color: white;
-  text-align: center;
-  font-weight: 500;
-  margin: $default-padding/2 0;
-  // max-width: 80%;
-}
-.modal-footer{
-  margin: $default-padding 0;
-}
-#story-play{
-  display: grid;
-  padding: 0;
-
-  grid-template-rows: 80vh 20vh;
-  
-}
-.story-timeline{
-  align-self: self-end;
-  padding: $default-padding*2 $default-padding*3;
-}
-
-.timeline-list{
+#create-choice-list {
   display: flex;
-  align-items: center;
-  gap: 20px;
   justify-content: space-between;
-}
-.timeline-card{
-  img{
-    width: 70px;
-    height: 70px;
-    border-radius: 7px;
-    border: 2px solid grey;
-  }
-}
-.timeline-card.active{
-  img{
-    width: 100px;
-    height: 100px;
-    border: 2px solid $primary-color;
-  }
-}
-.story-section{
-  padding: $default-padding*2 $default-padding*3;
-  display: flex;
-  gap: 20px;
-  justify-content: space-between;
-  
-}
-.story-text-section{
-  max-width: 500px;
-  align-self: center;
-
-}
-.story-image-section{
-  max-height: 80vh;
-  img{
-    height: 100%;
-  }
+  margin-top: 50px;
 }

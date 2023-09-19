@@ -3,6 +3,7 @@
         <div class="logo-container">
             <img src="@/assets/logo.png" alt="logo" class="logo" id="nav-logo">
         </div>
+        
     </nav>
 </template>
 

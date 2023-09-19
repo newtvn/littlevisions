@@ -2,9 +2,9 @@
 nav{
    display: flex;
    align-items: center;
-   padding: $default-padding;
+   padding: $default-padding*2 $default-padding*2;
 
 }
 #nav-logo{
-    width: 130px;
+    width: 100px;
 }

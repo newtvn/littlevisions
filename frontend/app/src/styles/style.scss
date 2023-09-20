@@ -118,6 +118,21 @@ input {
     font-weight: 500;
   }
 }
+.tertiary-bubble{
+  .avatar-chat-bubble{
+    background-color: $tertiary-color;
+  }
+}
+.primary-bubble{
+  .avatar-chat-bubble{
+    background-color: $primary-color;
+  }
+}
+.secondary-bubble{
+  .avatar-chat-bubble{
+    background-color: $secondary-color;
+  }
+}
 
 @import "./chat-bubble.scss";
 @import "./buttons.scss";

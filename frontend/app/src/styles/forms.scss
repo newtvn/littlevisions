@@ -20,8 +20,8 @@ input{
     font-size: large;
 }
 .label-indicator{
-    i{  
-        margin-top: $default-padding;
+    .indicator{  
+        // margin-top: $default-padding;
 
         font-size: 20px;
     }

@@ -1,7 +1,10 @@
 <template>
     <main id="story-create">
         <slideout @closing="onClosing" v-model="panelVisible" dock="bottom" size="500px">
-            <WriteStoryPanel />
+            <WriteStoryPanel v-if="panelChild === 'write'" />
+            <StartStoryPanel v-if="panelChild === 'start'" />
+            <ExploreChoicesPanel v-if="panelChild === 'explore'" />
+
         </slideout>
         <div class="main-header">
             <div class="center-container">
@@ -17,10 +20,11 @@
 
         <div class="main-body">
             <div id="create-choice-list">
-                <CreateChoiceCard text="Write my own" image="pencil.png" class=" bg-primary card"
-                    @click="panelVisible = true" />
-                <CreateChoiceCard text="Explore Choices" image="book.png" class=" bg-secondary card" />
-                <CreateChoiceCard text="Start Immediately" image="rocket.png" class=" bg-tertiary card" />
+                <CreateChoiceCard text="Write my own" image="pencil.png" class=" bg-primary card" @click="writeCardClick" />
+                <CreateChoiceCard text="Explore Choices" image="book.png" class=" bg-secondary card"
+                    @click="exploreCardClick" />
+                <CreateChoiceCard text="Start Immediately" image="rocket.png" class=" bg-tertiary card"
+                    @click="startCardClick" />
 
             </div>
         </div>
@@ -29,14 +33,32 @@
 <script>
 import CreateChoiceCard from '@/components/story/CreateChoiceCard.vue';
 import WriteStoryPanel from "@/components/panels/WriteStoryPanel.vue"
+import StartStoryPanel from '@/components/panels/StartStoryPanel.vue';
+import ExploreChoicesPanel from '@/components/panels/ExploreChoicesPanel.vue';
 export default {
     data() {
         return {
-            panelVisible: false
+            panelVisible: false,
+            panelChild: null
         }
     },
     components: {
-        CreateChoiceCard, WriteStoryPanel
+        CreateChoiceCard, WriteStoryPanel, StartStoryPanel, ExploreChoicesPanel,
+    },
+    methods: {
+        writeCardClick() {
+            this.panelVisible = true;
+            this.panelChild = 'write';
+
+        },
+        startCardClick() {
+            this.panelVisible = true;
+            this.panelChild = 'start';
+        },
+        exploreCardClick() {
+            this.panelVisible = true;
+            this.panelChild = 'explore';
+        },
     }
 }
 </script>

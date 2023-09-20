@@ -163,6 +163,9 @@
   justify-content: space-between;
   margin-top: 50px;
 }
+.slideout-body {
+  min-height: 40%;
+}
 .slideout-body,
 .footer-container {
   padding: $default-padding * 2 50px;
@@ -171,12 +174,15 @@
   margin: $default-padding 0;
 }
 .header-container {
+  position: relative;
   .avatar-speak {
     width: fit-content;
     margin: 0 auto;
-    .avatar-chat-bubble {
-      background-color: $primary-color;
-    }
+  }
+  .try-again-container{
+    position: absolute;
+    right: 50px;
+    top: 50px;
   }
 }
 .slideout-body {
@@ -193,4 +199,15 @@
   button {
     height: 50px;
   }
+}
+.slideout-body .story-text {
+  font-size: 25px;
+  line-height: 2;
+  margin-top: $default-padding;
+}
+.story-title{
+  font-size: 20px;
+  text-align: center;
+  text-decoration: underline;
+  font-weight: 600;
 }

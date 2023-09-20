@@ -1,6 +1,6 @@
 <template>
     <div class="header-container">
-        <AvatarSpeak :text="avatar_text" />
+        <AvatarSpeak :text="avatar_text" type="primary"/>
     </div>
     <div class="slideout-body">
 
@@ -8,7 +8,7 @@
             <div class="row default-gap label-indicator">
 
                 <p class="fancy-label">Write Your Imagination here</p>
-                <i class="fa fa-arrow-down"></i>
+                <i class="fa fa-arrow-down indicator"></i>
             </div>
             <input type="text" class="textarea full-width" autofocus>
             <p class="form-caption">Example: I am a forgetful dragon stuck in a very beautiful cave</p>
@@ -17,7 +17,7 @@
     <div class="slideout-footer footer-container ">
 
 
-        <button class="primary-btn full-width">
+        <button class="bg-primary primary-btn full-width">
             Start Writing Your Story
         </button>
     </div>

@@ -133,6 +133,10 @@ input {
     background-color: $secondary-color;
   }
 }
+.flex-wrap{
+  display: flex;
+  flex-wrap: wrap;
+}
 
 @import "./chat-bubble.scss";
 @import "./buttons.scss";

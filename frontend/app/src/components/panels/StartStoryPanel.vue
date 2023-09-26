@@ -22,7 +22,7 @@
     <div class="slideout-footer footer-container ">
 
 
-        <button class="primary-btn full-width bg-tertiary">
+        <button class="primary-btn full-width bg-tertiary" @click="writeStory">
             Start Writing
         </button>
     </div>
@@ -38,6 +38,11 @@ export default {
         return {
             avatar_text: "Hey, we've got a story to start with! If you want a different one, you can click the 'Try Again' button. If not, click 'Start Writing'!",
             narrative: "Once upon a time in a magical forest, a curious squirrel named Sammy discovered a mysterious key beneath an ancient oak tree."
+        }
+    },
+    methods:{
+        writeStory(){
+            this.$emit('startWrite',this.narrative)
         }
     }
 }

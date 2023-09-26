@@ -1,9 +1,9 @@
 <template>
     <main id="story-create">
         <slideout @closing="onClosing" v-model="panelVisible" dock="bottom" size="500px">
-            <WriteStoryPanel v-if="panelChild === 'write'" />
-            <StartStoryPanel v-if="panelChild === 'start'" />
-            <ExploreChoicesPanel v-if="panelChild === 'explore'" />
+            <WriteStoryPanel v-if="panelChild === 'write'" @startWrite="goToStoryBuild('Bz71mLOXDNUMCSjS01tU')"/>
+            <StartStoryPanel v-if="panelChild === 'start'" @startWrite="goToStoryBuild('Bz71mLOXDNUMCSjS01tU')"/>
+            <ExploreChoicesPanel v-if="panelChild === 'explore'" @startWrite="goToStoryBuild('Bz71mLOXDNUMCSjS01tU')"/>
 
         </slideout>
         <div class="main-header">
@@ -59,6 +59,13 @@ export default {
             this.panelVisible = true;
             this.panelChild = 'explore';
         },
+
+        goToStoryBuild(id){
+            this.$router.push({name: 'build-story',params:{
+                story_id:id
+            
+            }})
+        }
     }
 }
 </script>

@@ -11,7 +11,7 @@
     <div class="slideout-footer footer-container ">
 
 
-        <button class="primary-btn full-width bg-secondary">
+        <button class="primary-btn full-width bg-secondary" @click="writeStory">
             Start Writing
         </button>
     </div>
@@ -36,6 +36,14 @@ export default {
                 { "title": "The Mysterious Cat", "mood": "" },
             ],
             selectedChoice: null
+        }
+    },
+    methods:{
+        writeStory(){
+            if(this.selectedChoice!=null){
+
+                this.$emit('startWrite',this.selectedChoice.title)
+            }
         }
     }
 }

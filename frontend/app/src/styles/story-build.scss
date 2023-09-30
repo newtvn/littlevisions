@@ -100,7 +100,7 @@
 }
 #story-path-container{
     display: flex;
-    align-items: center;
+    // align-items: center;
     height: 100%;
     padding: 0 25px ;
 }
@@ -147,5 +147,13 @@
     align-self: center;
     .story-text{
         font-size: 30px;
+    }
+}
+
+#path-selector-header{
+    margin-top: 25px;
+
+    img{
+        width: 60px;
     }
 }

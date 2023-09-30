@@ -1,8 +1,11 @@
 <template>
     <div class="story-build-screen">
         <slideout @closing="onClosing" v-model="panelVisible" dock="bottom" size="600px">
-            <div class="center-container">
-                <h1 class="slideout-title">Choose The Next Path</h1>
+            <div class="center-container" id="path-selector-header">
+                <div class="image-header row default-gap">
+                    <img src="@/assets/images/choice.png" alt="">
+                    <h1 class="slideout-title">Choose Your Next Path</h1>
+                </div>
             </div>
             <div id="story-path-container">
 
@@ -53,7 +56,7 @@
                                 <i class="fa fa-arrow-left indicator"></i>
                                 <p class="fancy-label">Write My Own Path</p>
                             </div>
-                            <div class="row default-gap label-indicator">
+                            <div class="row default-gap label-indicator" v-if="selectedChoice!==null">
 
                                 <p class="fancy-label">Choose This Path</p>
                                 <i class="fa fa-arrow-right indicator"></i>
@@ -85,6 +88,10 @@
         </div>
 
         <CharacterPanel />
+
+        <div class="extra-controls">
+            <p class="caption">Report This Suggetsion</p>
+        </div>
 
 
 

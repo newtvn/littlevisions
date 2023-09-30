@@ -23,7 +23,7 @@
 
                     <p class="fancy-label">Continue Your Story</p>
                     <i class="fa fa-arrow-right indicator"></i>
-                    <button class="circle-btn center-container bg-primary">
+                    <button class="circle-btn center-container bg-primary" @click="$emit('continueStory')">
                         <i class="fa fa-step-forward"> </i>
                     </button>
                 </div>
@@ -33,8 +33,8 @@
 </template>
 <script>
 import StoryText from '@/components/story/StoryText.vue';
-export default{
-    components:{
+export default {
+    components: {
         StoryText
     }
 }

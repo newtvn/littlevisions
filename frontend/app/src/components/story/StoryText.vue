@@ -22,6 +22,12 @@ export default {
         }
     },
     watch:{
+        text(oldValue,newValue){
+            if(oldValue!==newValue){
+                this.typetext=""
+                this.typeEffect()
+            }
+        }
         
     },
     methods: {

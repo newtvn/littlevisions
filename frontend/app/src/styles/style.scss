@@ -138,6 +138,13 @@ input {
   flex-wrap: wrap;
 }
 
+.slideout-title{
+  font-weight: 500;
+  font-size: 25px;
+}
+.margin-left-auto{
+  margin-left: auto;
+}
 @import "./chat-bubble.scss";
 @import "./buttons.scss";
 @import "./forms.scss";

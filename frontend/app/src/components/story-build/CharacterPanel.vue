@@ -2,7 +2,7 @@
     <div class="characters-panel story-build-panel row">
         <p class="panel-subtitle">Your Characters</p>
         <div class="character-list row default-gap">
-            <div class="character-item scale-hover">
+            <div class="character-item scale-hover" @click="$router.push({name:'character-page',params:{id:1}})">
                 <div class="character-image">
                     <img src="https://assets.nick.com/uri/mgid:arc:imageassetref:shared.nick.us:a625d441-bbbf-42c8-9927-6a0157aac911?quality=0.7&gen=ntrn&legacyStatusCode=true"
                         alt="">

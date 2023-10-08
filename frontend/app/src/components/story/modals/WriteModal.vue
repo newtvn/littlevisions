@@ -2,7 +2,7 @@
     <BaseModal id="pick-modal">
         <template v-slot:header>
 
-            <p class="modal-title">How do you want your story to start</p>
+            <p class="modal-title">Write Your Own Path</p>
         </template>
         <template v-slot:body>
             

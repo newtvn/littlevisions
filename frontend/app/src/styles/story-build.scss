@@ -157,3 +157,24 @@
         width: 60px;
     }
 }
+.extra-controls{
+    align-self: self-end;
+    padding: 25px 0 ;
+    justify-self: center;
+    gap: 20px;
+}
+#story-choice-write-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 80%;
+    padding: 0 25px;
+    .form-container{
+        padding: 0 25px;
+    }
+    .current-narrative{
+       font-size: 25px;
+       margin-top: 25px;
+       color: $muted-grey;
+    }
+}

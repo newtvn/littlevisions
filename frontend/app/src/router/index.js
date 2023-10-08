@@ -8,6 +8,7 @@ import StoryCreate from "../views/story/StoryCreate.vue";
 import StoryMine from "../views/story/StoryMine.vue";
 import LibraryView from "../views/LibraryView.vue";
 import FlipBookMental from "@/components/FlipBookMental.vue";
+import CharacterView from '@/views/story/CharacterView.vue';
 const routes = [
   {
     path: "/",
@@ -34,6 +35,12 @@ const routes = [
         name: "library-home",
         component: LibraryView,
       },
+      {
+        path: '/character/:id',
+        name: 'character-page',
+        component: CharacterView
+
+      }
     ],
   },
 

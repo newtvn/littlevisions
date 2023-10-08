@@ -3,5 +3,5 @@ from pydantic import BaseModel
 
 
 def create_parser(model: BaseModel):
-    parser = PydanticOutputParser(model)
+    parser = PydanticOutputParser(pydantic_object= model)
     return parser

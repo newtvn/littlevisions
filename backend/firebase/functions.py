@@ -10,19 +10,58 @@ async def get_story(story_id: str):
     doc_ref = await store.collection("stories").document(story_id)
     return doc_ref
 
-async def get_storyboard(story_id :str, board_id:str):
+
+async def get_storyboard(story_id: str, board_id: str):
     """
     Fetches a storyboard from the database given a story id and board id
     """
-    doc_ref =  store.collection("stories").document(story_id).collection("storyboard").document(board_id)
+    doc_ref = (
+        store.collection("stories")
+        .document(story_id)
+        .collection("storyboard")
+        .document(board_id)
+    )
     return doc_ref
 
-async def update_storyboard(story_id:str, board_id:str,extra_data:dict):
+
+async def get_character(story_id: str, character_id: str):
+    """
+    Fetches a character from the database given a story id and board id
+    """
+    doc_ref = (
+        store.collection("stories")
+        .document(story_id)
+        .collection("characters")
+        .document(character_id)
+    )
+    return doc_ref
+
+
+async def update_storyboard(story_id: str, board_id: str, extra_data: dict):
     """
     Updates a storyboard from the database given a story id and board id
     """
-    doc_ref =  store.collection("stories").document(story_id).collection("storyboard").document(board_id)
+    doc_ref = (
+        store.collection("stories")
+        .document(story_id)
+        .collection("storyboard")
+        .document(board_id)
+    )
     await doc_ref.update(extra_data)
+
+
+async def update_character(story_id: str, character_id: str, extra_data: dict):
+    """
+    Updates a character from the database given a story id and character id
+    """
+    doc_ref = (
+        store.collection("stories")
+        .document(story_id)
+        .collection("characters")
+        .document(character_id)
+    )
+    await doc_ref.update(extra_data)
+
 
 async def create_story(story_document: dict, board_document: dict):
     """

@@ -31,6 +31,8 @@ export default {
             if (!("image_url" in this.$props.item)) {
                 api.get(`story/${story_id}/image/generate/${board_id}`).then(res => {
                     this.image_url = res.data.image_url
+                }).catch(e=>{
+                    console.log(e)
                 })
             }
         }

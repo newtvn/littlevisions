@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from core.functions import *
+from core.narration_gen import NarrationGenerator
 from models import *
 from firebase import functions as firebase_functions
 from fastapi.middleware.cors import CORSMiddleware
@@ -21,6 +22,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 test_narrative = "Long ago there lived a very funny but cruel panda that was stuck in a zoo. He didnt like his habitat"
+
+
+def generate_image_and_upload(image_prompt: str, filename: str):
+    """
+    Generates an image given a prompt and uploads
+    """
+    image_gen = ImageGenerator(image_prompt)
+    image_string = image_gen.generate()
+    output_path = f"./tmp/images/{filename}.png"
+    image_gen.write_to_file(image_string, output_path)
+    public_url = upload.uploadFile(output_path)
+
+    return public_url
 
 
 @app.get("/")
@@ -135,9 +149,45 @@ async def generate_board_image(story_id: str, board_id: str):
         return {"image_url": public_url}
 
 
-@app.get("story/{story_id}/narration/generate/{board_id}")
+@app.get("/story/{story_id}/character/{character_id}/image/generate")
+async def generate_character_image(story_id: str, character_id: str):
+    """
+    Generates a character image and uploads to firebase
+    """
+    character = await firebase_functions.get_character(story_id, character_id)
+    character = await character.get()
+    character = character.to_dict()
+    if "image_url" in character:
+        return {"image_url": character["image_url"]}
+    else:
+        image_prompt = character["image_description"]
+        public_url = generate_image_and_upload(image_prompt, character_id)
+        await firebase_functions.update_character(
+            story_id, character_id, {"image_url": public_url}
+        )
+        return {"image_url": public_url}
+
+
+@app.get("/story/{story_id}/narration/generate/{board_id}")
 async def generate_board_narration(story_id: str, board_id: str):
     """
     Generates the text narration as a url for a given storyboard
     """
-    pass
+    storyboard = await firebase_functions.get_storyboard(story_id, board_id)
+
+    storyboard = await storyboard.get()
+    storyboard = storyboard.to_dict()
+    if "narration_url" in storyboard:
+        return {"narration_url": storyboard["narration_url"]}
+    else:
+        narrative = storyboard["narrative"]
+        audio_gen = NarrationGenerator(text=narrative)
+        audio_bytes = audio_gen.generate()
+        output_path = f"./tmp/narrations/{board_id}.mp3"
+
+        audio_gen.write_to_file(audio_bytes, output_path)
+        public_url = upload.uploadFile(output_path)
+        await firebase_functions.update_storyboard(
+            story_id, board_id, {"narration_url": public_url}
+        )
+        return {"narration_url": public_url}

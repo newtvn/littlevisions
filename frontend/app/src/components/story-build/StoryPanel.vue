@@ -1,13 +1,12 @@
 <template>
     <div class="story-text-panel story-build-panel">
         <div class="audio-controls">
-            <div class="audio-indicator row default-gap">
+            <div class="audio-indicator row default-gap" @click="playAudio">
                 <i class="fa-solid fa-microphone"></i>
                 David
             </div>
         </div>
-        <StoryText
-            :text="storyboard.narrative" v-if="storyboard"/>
+        <StoryText :text="storyboard.narrative" v-if="storyboard" />
         <div class="story-controls">
             <div class="row space-btn">
                 <div class="row default-gap label-indicator">
@@ -33,6 +32,7 @@
 </template>
 <script>
 import StoryText from '@/components/story/StoryText.vue';
+import api from '@/plugins/axios_utils';
 export default {
     components: {
         StoryText
@@ -42,6 +42,36 @@ export default {
             type: Object,
             required: true
         }
+    },
+    data() {
+        return {
+            narration_url: null
+        }
+    },
+    methods: {
+        playAudio() {
+            var audio = new Audio(this.narration_url)
+            audio.play().catch(e=>{
+                console.log(e)
+            })
+        },
+        getAudio() {
+            var story_id = this.$route.params['story_id']
+            var board_id = this.$route.params['board_id']
+            if ("narration_url" in this.$props.storyboard) {
+                this.narration_url = this.$props.storyboard.narration_url
+
+            }
+            else {
+                api.get(`story/${story_id}/narration/generate/${board_id}`).then(res => {
+                    this.narration_url = res.data.narration_url
+
+                })
+            }
+        }
+    },
+    mounted() {
+        this.getAudio()
     }
 }
 </script>

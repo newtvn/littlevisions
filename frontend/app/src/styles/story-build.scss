@@ -87,6 +87,13 @@
   // overflow-y: scroll;
   // overflow-x: visible;
   height: 90%;
+  scrollbar-width: none; 
+  overflow-x: visible;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
   .storyboard-item {
     transition: scale 0.3s ease-out;
     opacity: 0.8;

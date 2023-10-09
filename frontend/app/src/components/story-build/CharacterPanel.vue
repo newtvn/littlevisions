@@ -3,11 +3,7 @@
         <p class="panel-subtitle">Your Characters</p>
         <div class="character-list row default-gap">
 
-            <div class="character-item scale-hover" v-for="character in characters" :key="character.id">
-                <div class="character-image">
-                    <img src="https://i.pinimg.com/564x/92/52/7b/92527b5b5e7320a9ad3e75023215ba5b.jpg" alt="">
-                </div>
-            </div>
+           <CharacterItem v-for="character in characters" :key="character.id" :character="character"/>
 
         </div>
 
@@ -19,8 +15,12 @@
 
 <script>
 import { firestore } from '@/firebase';
+import CharacterItem from './CharacterItem.vue';
 import { getDocs, query, collection } from 'firebase/firestore';
 export default {
+    components:{
+        CharacterItem
+    },
     data() {
         return {
             characters: []
@@ -36,7 +36,7 @@ export default {
                     ...doc.data(),
                     id: doc.id,
                 }))
-            })
+        })
 
         }
     },

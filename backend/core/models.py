@@ -10,11 +10,12 @@ class StoryList(BaseModel):
     stories: List[Story]
 
 class StoryPart(BaseModel):
-    narrative: str = Field(description="30 words max text on a narrative")
+    narrative: str = Field(description="30 words max narrative text, extending or starting a story")
     title: str = Field(description="Small title based off the narrative")
     image_description: str = Field(
         description="Image generation prompt based of keywords on the narrative"
     )
+    music_description:str = Field(description="Description for a background music generation prompt, include instruments, eras or whatever's relevant")
 
 
 class PathPart(BaseModel):
@@ -22,10 +23,7 @@ class PathPart(BaseModel):
         description="A different path narrative for the stort to take"
     )
     title: str = Field(description="Small title, 3 words max, based off the narrative")
-    image_description: str = Field(
-        description="Image generation prompt based of keywords on the narrative"
-    )
-    mood: str = Field(description="The general mood of the narrative")
+
 
 
 class PathList(BaseModel):

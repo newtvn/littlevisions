@@ -4,7 +4,7 @@ import os
 
 
 class ImageGenerator:
-    def __init__(self, prompt: str, style: str | None = None):
+    def __init__(self, prompt: str, style: str | None = 'anime'):
         self.prompt = prompt
         self.style = style
 

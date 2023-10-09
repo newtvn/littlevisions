@@ -2,25 +2,10 @@
     <div class="characters-panel story-build-panel row">
         <p class="panel-subtitle">Your Characters</p>
         <div class="character-list row default-gap">
-            <div class="character-item scale-hover" @click="$router.push({name:'character-page',params:{id:1}})">
-                <div class="character-image">
-                    <img src="https://assets.nick.com/uri/mgid:arc:imageassetref:shared.nick.us:a625d441-bbbf-42c8-9927-6a0157aac911?quality=0.7&gen=ntrn&legacyStatusCode=true"
-                        alt="">
-                </div>
-            </div>
-            <div class="character-item scale-hover">
+
+            <div class="character-item scale-hover" v-for="character in characters" :key="character.id">
                 <div class="character-image">
                     <img src="https://i.pinimg.com/564x/92/52/7b/92527b5b5e7320a9ad3e75023215ba5b.jpg" alt="">
-                </div>
-            </div>
-            <div class="character-item scale-hover">
-                <div class="character-image">
-                    <img src="https://www.sosyncd.com/wp-content/uploads/2022/06/38-1.png" alt="">
-                </div>
-            </div>
-            <div class="character-item scale-hover">
-                <div class="character-image">
-                    <img src="https://i.pinimg.com/564x/8b/82/9b/8b829b4533d4c054a14e7d1db9b6e1f5.jpg" alt="">
                 </div>
             </div>
 
@@ -31,3 +16,32 @@
         </button>
     </div>
 </template>
+
+<script>
+import { firestore } from '@/firebase';
+import { getDocs, query, collection } from 'firebase/firestore';
+export default {
+    data() {
+        return {
+            characters: []
+        }
+    },
+    methods: {
+        async getCharacters() {
+            var story_id = this.$route.params['story_id']
+            var charactersCollection = collection(firestore, `stories/${story_id}/characters`)
+            getDocs(query(charactersCollection)).then(e => {
+                // console.log(e.docs)
+                this.characters = e.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }))
+            })
+
+        }
+    },
+    mounted() {
+        this.getCharacters()
+    }
+}
+</script>

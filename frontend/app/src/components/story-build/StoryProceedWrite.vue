@@ -30,7 +30,7 @@
 
                     <p class="fancy-label">Use This Path</p>
                     <i class="fa fa-arrow-right indicator"></i>
-                    <button class="circle-btn center-container bg-primary" @click="$emit('continueStory')">
+                    <button class="circle-btn center-container bg-primary" @click="$emit('continueStory',text)">
                         <i class="fa fa-step-forward"> </i>
                     </button>
                 </div>

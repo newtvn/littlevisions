@@ -4,12 +4,12 @@
 
         <div class="path-card-selector">
             <div class="path-card-list">
-                <PathCard v-for="probability in probabilities" :key="probability.id" @click="selectedChoice = probability"
+                <PathCard v-for="probability in probabilities" :key="probability.title" @click="selectedChoice = probability"
                     :selected="selectedChoice == probability">
                     <template v-slot:front>
                         <div class="center-container">
                             <p class="path-card-front-title">
-                                {{ probability.id }}
+                                {{ probability.mood }}
                             </p>
                         </div>
                     </template>
@@ -33,7 +33,7 @@
             <div class="path-text-view">
                 <!-- <p class="story-text" v-if="selectedChoice != null">{{ selectedChoice.text }}</p> -->
 
-                <StoryText :text="selectedChoice.text" v-if="selectedChoice != null" :delay="40" />
+                <StoryText :text="selectedChoice.narrative" v-if="selectedChoice != null" :delay="40" />
                 <div class="center-container" v-else>
                     <AvatarSpeak text="You need to make a choice to continue. Choose a card on your left" />
                 </div>
@@ -53,7 +53,7 @@
 
                         <p class="fancy-label">Choose This Path</p>
                         <i class="fa fa-arrow-right indicator"></i>
-                        <button class="circle-btn center-container bg-primary" @click="$emit('continueStory')">
+                        <button class="circle-btn center-container bg-primary" @click="$emit('continueStory',selectedChoice)">
                             <i class="fa fa-step-forward"> </i>
                         </button>
                     </div>

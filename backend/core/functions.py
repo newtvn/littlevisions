@@ -2,10 +2,10 @@ from langchain.chains import LLMChain, SequentialChain
 from langchain.llms import OpenAI
 from .templates import *
 from .openai_key import openai_key
-
+from .image_gen import ImageGenerator
 from typing import List
 
-llm = OpenAI()
+llm = OpenAI(temperature=0.4)
 
 
 def create_story_from_prompt(prompt: str) -> StoryPart:
@@ -51,8 +51,19 @@ def extend_narrative_given_prompt(pre_narrative: str, prompt: str) -> dict:
     return output.dict()
 
 
+def get_characters_from_narrative(narrative: str) -> CharacterList:
+    """
+    Gets the characters from a narrative
+    """
+    chain = LLMChain(llm=llm, prompt=CHARACTER_LIST_PROMPT)
+    res = chain.run(narrative)
+    output = CHARACTER_LIST_PROMPT_PARSER.parse(res)
+    return output
+
+
 def generate_image_from_prompt(prompt: str) -> str:
     """
-    Calls an image generation api and returns an image_url
+    Calls an image generation api and returns a base64 image string
     """
-    pass
+    image_gen = ImageGenerator(prompt=prompt)
+    return image_gen.generate()

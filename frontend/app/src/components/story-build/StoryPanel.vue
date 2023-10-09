@@ -7,7 +7,7 @@
             </div>
         </div>
         <StoryText
-            text="Once upon a time in a magical forest, a curious squirrel named Sammy discovered a mysterious key beneath an ancient oak tree." />
+            :text="storyboard.narrative" v-if="storyboard"/>
         <div class="story-controls">
             <div class="row space-btn">
                 <div class="row default-gap label-indicator">
@@ -36,6 +36,12 @@ import StoryText from '@/components/story/StoryText.vue';
 export default {
     components: {
         StoryText
+    },
+    props: {
+        storyboard: {
+            type: Object,
+            required: true
+        }
     }
 }
 </script>

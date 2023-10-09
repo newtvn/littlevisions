@@ -29,7 +29,7 @@ class PathPart(BaseModel):
 
 
 class PathList(BaseModel):
-    paths: List[PathPart] = Field(description="Ensure the list is valid and parsable as JSON")
+    paths: List[PathPart] = Field(description="Ensure the list is valid JSON. Emphasis on valid JSON")
 
 
 class Character(BaseModel):

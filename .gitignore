@@ -162,3 +162,4 @@ cython_debug/
 backend/test.ipynb
 backend/littlevisions-firebase-adminsdk-k4594-a1e531b667.json
 backend/core/openai_key.py
+backend/tmp/

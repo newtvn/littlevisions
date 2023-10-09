@@ -21,12 +21,12 @@ PATH_CREATE_PROMPT = PromptTemplate(
     },
 )
 
-
+CHARACTER_LIST_PROMPT_PARSER = create_parser(CharacterList)
 CHARACTER_LIST_PROMPT = PromptTemplate(
     input_variables=["narrative"],
     template="Provide the characters that exist in the following narrative: {narrative}. {format_instructions}",
     partial_variables={
-        "format_instructions": create_parser(CharacterList).get_format_instructions()
+        "format_instructions": CHARACTER_LIST_PROMPT_PARSER.get_format_instructions()
     },
 )
 

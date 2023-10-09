@@ -1,7 +1,7 @@
 <template>
     <main id="story-create">
         <slideout @closing="onClosing" v-model="panelVisible" dock="bottom" size="500px">
-            <WriteStoryPanel v-if="panelChild === 'write'" @startWrite="goToStoryBuild('Bz71mLOXDNUMCSjS01tU')" />
+            <WriteStoryPanel v-if="panelChild === 'write'" @startWrite="createStoryFromWrite" />
             <StartStoryPanel v-if="panelChild === 'start'" @startWrite="goToStoryBuild('Bz71mLOXDNUMCSjS01tU')" />
             <ExploreChoicesPanel v-if="panelChild === 'explore'" @startWrite="goToStoryBuild('Bz71mLOXDNUMCSjS01tU')" />
 
@@ -59,8 +59,8 @@ export default {
             }).then(res => {
                 var data = res.data
                 this.goToStoryBuild(data.story_id, data.board_id)
-            }).finally(() => {
-
+            }).catch(e=>{
+                console.log(e)
             })
         },
         startCardClick() {

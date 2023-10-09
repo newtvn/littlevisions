@@ -1,24 +1,12 @@
 <template>
     <div class="story-build-screen">
         <slideout @closing="onClosing" v-model="panelVisible" dock="bottom" size="600px">
-            <StoryProceed :probabilities="probabilities" narrative="The narrative will go here"/>
+            <StoryProceed :probabilities="probabilities" narrative="The narrative will go here"
+                @continueStory="nextBoard" />
         </slideout>
-        <StoryPanel @continueStory="continueStory" />
+        <StoryPanel @continueStory="continueStory" :storyboard="storyboard" v-if="storyboard" />
 
-        <div class="storyboard-panel story-build-panel">
-
-            <p class="panel-subtitle" style="text-align: center;">Your Storyboard</p>
-
-            <div class="storyboard-panel-list">
-                <div class="storyboard-item scale-hover">
-                    <img src="https://static.wikia.nocookie.net/spongebob/images/7/72/No_Weenies_Allowed_019.png/" alt="">
-                </div>
-                <div class="storyboard-item scale-hover">
-                    <img src="https://rhetoricandpopularculture.files.wordpress.com/2013/02/spongebob_mr_krabs_and_plankton.jpg"
-                        alt="">
-                </div>
-            </div>
-        </div>
+        <StoryBoardPanel />
 
         <CharacterPanel />
 
@@ -45,34 +33,23 @@
 </style>
 <script>
 import CharacterPanel from '@/components/story-build/CharacterPanel.vue'
+import StoryBoardPanel from '@/components/story-build/StoryBoardPanel.vue'
 import StoryPanel from '@/components/story-build/StoryPanel.vue'
-
+import { getStoryboardDoc } from "@/firebase"
+import { getDoc } from 'firebase/firestore'
 import StoryProceed from '@/components/story-build/StoryProceed.vue'
+import api from '@/plugins/axios_utils'
 export default {
     components: {
         CharacterPanel, StoryPanel,
-        StoryProceed
+        StoryProceed, StoryBoardPanel
     },
     data() {
         return {
             panelVisible: false,
             selectedChoice: null,
+            storyboard: null,
             probabilities: [
-                {
-                    id: 1,
-                    text: "The hair met a very handsome prince and fell in love",
-                    title: "The Meetup"
-                },
-                {
-                    id: 2,
-                    text: "The hare fell in a very deep dark hole, with no one to call",
-                    title: "The Fall"
-                },
-                {
-                    id: 3,
-                    text: "The hare heard a scream and got very curious to what's happening",
-                    title: "The Scream"
-                },
             ]
 
         }
@@ -86,7 +63,46 @@ export default {
 
                 this.panelVisible = false;
             }
+        },
+        nextBoard(board_id) {
+            this.panelVisible = false
+            var story_id = this.$route.params['story_id']
+
+            this.$router.replace({
+                name: 'build-story', params: {
+                    story_id: story_id,
+                    board_id: board_id
+                }
+            })
+        },
+        async getStory() {
+            var story_id = this.$route.params['story_id']
+            var board_id = this.$route.params["board_id"]
+
+            getDoc(getStoryboardDoc(story_id, board_id)).then((data) => {
+
+                this.storyboard = data.data()
+                console.log(this.storyboard)
+            })
+
+        },
+
+        async getProbabilities() {
+            var story_id = this.$route.params['story_id']
+            var board_id = this.$route.params["board_id"]
+
+
+            api.get(`story/${story_id}/build/${board_id}/path`).then(res => {
+                this.probabilities = res.data.paths
+            }).catch(e => {
+                console.log(e)
+                this.getProbabilities()
+            })
         }
+    },
+    mounted() {
+        this.getStory()
+        this.getProbabilities()
     }
 }
 </script>

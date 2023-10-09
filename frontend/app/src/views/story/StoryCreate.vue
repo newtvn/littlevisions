@@ -1,9 +1,9 @@
 <template>
     <main id="story-create">
         <slideout @closing="onClosing" v-model="panelVisible" dock="bottom" size="500px">
-            <WriteStoryPanel v-if="panelChild === 'write'" @startWrite="goToStoryBuild('Bz71mLOXDNUMCSjS01tU')"/>
-            <StartStoryPanel v-if="panelChild === 'start'" @startWrite="goToStoryBuild('Bz71mLOXDNUMCSjS01tU')"/>
-            <ExploreChoicesPanel v-if="panelChild === 'explore'" @startWrite="goToStoryBuild('Bz71mLOXDNUMCSjS01tU')"/>
+            <WriteStoryPanel v-if="panelChild === 'write'" @startWrite="goToStoryBuild('Bz71mLOXDNUMCSjS01tU')" />
+            <StartStoryPanel v-if="panelChild === 'start'" @startWrite="goToStoryBuild('Bz71mLOXDNUMCSjS01tU')" />
+            <ExploreChoicesPanel v-if="panelChild === 'explore'" @startWrite="goToStoryBuild('Bz71mLOXDNUMCSjS01tU')" />
 
         </slideout>
         <div class="main-header">
@@ -35,6 +35,7 @@ import CreateChoiceCard from '@/components/story/CreateChoiceCard.vue';
 import WriteStoryPanel from "@/components/panels/WriteStoryPanel.vue"
 import StartStoryPanel from '@/components/panels/StartStoryPanel.vue';
 import ExploreChoicesPanel from '@/components/panels/ExploreChoicesPanel.vue';
+import api from "@/plugins/axios_utils.js"
 export default {
     data() {
         return {
@@ -51,6 +52,17 @@ export default {
             this.panelChild = 'write';
 
         },
+        createStoryFromWrite(text) {
+
+            api.post("story/create/prompt", {
+                prompt: text
+            }).then(res => {
+                var data = res.data
+                this.goToStoryBuild(data.story_id, data.board_id)
+            }).finally(() => {
+
+            })
+        },
         startCardClick() {
             this.panelVisible = true;
             this.panelChild = 'start';
@@ -60,11 +72,15 @@ export default {
             this.panelChild = 'explore';
         },
 
-        goToStoryBuild(id){
-            this.$router.push({name: 'build-story',params:{
-                story_id:id
-            
-            }})
+        goToStoryBuild(story_id, board_id = "") {
+
+            this.$router.push({
+                name: 'build-story', params: {
+                    story_id: story_id,
+                    board_id: board_id
+
+                }
+            })
         }
     }
 }

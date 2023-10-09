@@ -1,40 +1,58 @@
-
-from langchain.chains import LLMChain,SequentialChain
+from langchain.chains import LLMChain, SequentialChain
 from langchain.llms import OpenAI
 from .templates import *
 from .openai_key import openai_key
 
 from typing import List
+
 llm = OpenAI()
+
+
+def create_story_from_prompt(prompt: str) -> StoryPart:
+    """
+    Generates a story introduction from a prompt
+    """
+    chain = LLMChain(llm=llm, prompt=STORY_CREATE_PROMPT)
+    res = chain.run(prompt)
+    output = STORY_CREATE_PROMPT_PARSER.parse(res)
+    return output
+
+
 def get_random_story_titles() -> List[dict]:
-    chain = LLMChain(llm=llm,prompt=RANDOM_STORY_TITLES_PROMPT)
+    """
+    Generates 10 random story titles
+    """
+    chain = LLMChain(llm=llm, prompt=RANDOM_STORY_TITLES_PROMPT)
     res = chain.run(10)
     output = RANDOM_STORY_TITLES_PROMPT_PARSER.parse(res)
     return output.dict()
 
 
 def get_narrative_paths(narrative) -> List[dict]:
-    chain = LLMChain(llm=llm,prompt=PATH_CREATE_PROMPT) 
+    """
+    Get the next possible paths from a narrative
+    """
+    chain = LLMChain(llm=llm, prompt=PATH_CREATE_PROMPT)
     res = chain.run(narrative)
     output = PATH_CREATE_PROMPT_PARSER.parse(res)
     return output.dict()
 
-def extend_narrative_given_prompt(pre_narrative: str,prompt: str) -> dict:
-    narrative_chain = LLMChain(llm=llm,prompt=EXTEND_STORY_WITH_CUSTOM_PROMPT,output_key="narrative")
-    res = narrative_chain.run({"pre_narrative":pre_narrative,"prompt":prompt})
+
+def extend_narrative_given_prompt(pre_narrative: str, prompt: str) -> dict:
+    """
+    Extends a narrative from the provided prompt
+    """
+
+    narrative_chain = LLMChain(
+        llm=llm, prompt=EXTEND_STORY_WITH_CUSTOM_PROMPT, output_key="narrative"
+    )
+    res = narrative_chain.run({"pre_narrative": pre_narrative, "prompt": prompt})
     output = STORY_CREATE_PROMPT_PARSER.parse(res)
     return output.dict()
-    # paths_chain = LLMChain(llm=llm,prompt=PATH_CREATE_PROMPT,output_key="paths")
-    # chain = SequentialChain(
-    #     chains=[narrative_chain,paths_chain],
-    #     input_variables= ['pre_narrative','prompt'],
-    #     output_variables= ["narrative","paths"],
-    # )
-    # result = chain({"prompt":prompt,"pre_narrative":pre_narrative})
-    # narrative = result["narrative"]
-    # paths = result["paths"]
 
-    # return {
-    #     "paths": PATH_CREATE_PROMPT_PARSER.parse(paths).dict(),
-    #     "narrative": STORY_CREATE_PROMPT_PARSER.parse(narrative).dict()
-    # }
+
+def generate_image_from_prompt(prompt: str) -> str:
+    """
+    Calls an image generation api and returns an image_url
+    """
+    pass

@@ -6,7 +6,7 @@ from .models import StoryPart, PathList, CharacterList, StoryList
 STORY_CREATE_PROMPT_PARSER = create_parser(StoryPart)
 STORY_CREATE_PROMPT = PromptTemplate(
     input_variables=["topic"],
-    template="Write an intro to a child's story using the following prompt {topic}.{format_instructions}",
+    template="Write an introduction to a child's story using the following prompt as a guide {topic}.{format_instructions}",
     partial_variables={
         "format_instructions": STORY_CREATE_PROMPT_PARSER.get_format_instructions()
     },

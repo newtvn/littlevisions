@@ -195,3 +195,33 @@
     color: $muted-grey;
   }
 }
+.character-container{
+  position: relative;
+}
+.character-detail-container{
+  position: absolute;
+  top: -220px;
+  left: 0;
+  right: 0;
+  margin-bottom: $default-padding;
+  padding: $default-padding;
+  border-radius: 10px;
+  max-height: 250px;
+  width: 300px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+  img{
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+  }
+  .character-name{
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .character-description{
+    margin-top: $default-padding;
+    font-size: 15px;
+    color: $muted-grey;
+  }
+}

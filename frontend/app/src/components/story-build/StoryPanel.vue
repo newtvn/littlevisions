@@ -32,7 +32,7 @@
 </template>
 <script>
 import StoryText from '@/components/story/StoryText.vue';
-import api from '@/plugins/axios_utils';
+// import api from '@/plugins/axios_utils';
 export default {
     components: {
         StoryText
@@ -56,17 +56,17 @@ export default {
             })
         },
         getAudio() {
-            var story_id = this.$route.params['story_id']
-            var board_id = this.$route.params['board_id']
+            // var story_id = this.$route.params['story_id']
+            // var board_id = this.$route.params['board_id']
             if ("narration_url" in this.$props.storyboard) {
                 this.narration_url = this.$props.storyboard.narration_url
 
             }
             else {
-                api.get(`story/${story_id}/narration/generate/${board_id}`).then(res => {
-                    this.narration_url = res.data.narration_url
+                // api.get(`story/${story_id}/narration/generate/${board_id}`).then(res => {
+                //     this.narration_url = res.data.narration_url
 
-                })
+                // })
             }
         }
     },

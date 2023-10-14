@@ -10,8 +10,10 @@
   "dependencies": {
     "@hyjiacan/vue-slideout": "^3.0.2",
     "axios": "^1.5.0",
+    "colorthief": "^2.4.0",
     "core-js": "^3.8.3",
     "firebase": "^10.3.1",
+    "node-vibrant": "^3.2.0-alpha",
     "openai": "^4.4.0",
     "vue": "^3.2.13",
     "vue-audio-visual": "^3.0.5",

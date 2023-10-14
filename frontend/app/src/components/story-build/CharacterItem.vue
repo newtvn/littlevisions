@@ -1,12 +1,30 @@
 <template>
-    <div class="character-item scale-hover">
-        <div class="character-image">
-            <img :src="image_url" alt="">
+    <div class="character-container">
+
+        <div class="character-detail-container" v-show="show_detail" :style="backgroundColor">
+            <div class="character-image row default-gap">
+                <img :src="image_url" alt="" :id="image_url">
+                <span class="character-name">
+
+                    {{ character.name }}
+                </span>
+            </div>
+            <div class="character-description row default-gap">
+                <p>{{ character.description }}</p>
+            </div>
+        </div>
+        <div class="character-item scale-hover" @click="show_detail = !show_detail">
+            <div class="character-image row default-gap">
+                <img :src="image_url" alt="" @load="getPalette">
+                {{ character.name }}
+            </div>
         </div>
     </div>
 </template>
+
 <script>
 import api from '@/plugins/axios_utils'
+
 export default {
 
     props: {
@@ -17,7 +35,18 @@ export default {
     },
     data() {
         return {
-            image_url: null
+            image_url: null,
+            show_detail: false,
+            image_palette: null
+        }
+    },
+    computed:{
+        backgroundColor(){
+            var color = "white"
+            if(this.image_palette){
+                color =  this.image_palette["Vibrant"]
+            }
+            return {"background-color":color}
         }
     },
     methods: {
@@ -31,6 +60,14 @@ export default {
                     console.log(e)
                 })
             }
+        },
+        getPalette(){
+            // const img = document.getElementById(this.image_url)
+            
+            // const vibrant = Vibrant(img)
+            // vibrant.getPalette().then(e=>{
+            //     this.image_palette = e
+            // })
         }
     },
     mounted() {

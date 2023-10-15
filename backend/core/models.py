@@ -10,7 +10,7 @@ class StoryList(BaseModel):
     stories: List[Story]
 
 class StoryPart(BaseModel):
-    narrative: str = Field(description="30 words max narrative text, extending or starting a story")
+    narrative: str = Field(description="30 words max narrative text, extending or starting a story. 30 words maximum")
     title: str = Field(description="Small title based off the narrative")
     image_description: str = Field(
         description="Image generation prompt based of keywords on the narrative"

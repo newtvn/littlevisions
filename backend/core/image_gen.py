@@ -1,10 +1,11 @@
-import base64
-import requests
+from PIL import Image
 import os
+import replicate
+from urllib.request import urlretrieve
 
 
 class ImageGenerator:
-    def __init__(self, prompt: str, style: str | None = 'anime'):
+    def __init__(self, prompt: str, style: str | None = "anime"):
         self.prompt = prompt
         self.style = style
 
@@ -36,21 +37,20 @@ class ImageGenerator:
         }
 
     def generate(self) -> str:
-        response = requests.post(
-            self.url,
-            headers=self.get_headers(),
-            json=self.get_body(),
-        )
-        if response.status_code != 200:
-            raise Exception("Non-200 response: " + str(response.text))
-        else:
-            data = response.json()
-            image = data["artifacts"][0]
-            return image["base64"]
+        output = replicate.run(
+            "stability-ai/sdxl:c221b2b8ef527988fb59bf24a8b97c4561f1c671f73bd389f866bfb27c061316",
+            input={"prompt": self.prompt},
+        )        
+        return output[0]
+    
+    def url_to_image(self, image_url:str,filepath:str):
+        urlretrieve(image_url,filepath)
 
-    def write_to_file(self,base64String:str,filepath:str):
+
+
+    def write_to_file(self, image_url: str, filepath: str):
         directory = os.path.dirname(filepath)
         if not os.path.exists(directory):
             os.makedirs(directory)
-        with open(filepath, "wb") as fh:
-            fh.write(base64.b64decode(base64String))
+        self.url_to_image(image_url,filepath)
+        

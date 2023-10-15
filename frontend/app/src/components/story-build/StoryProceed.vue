@@ -1,8 +1,7 @@
 <template>
-
-        <StoryProceedChoice :probabilities="probabilities" v-if="selectedOption === 'choice'"
+    <StoryProceedChoice :probabilities="probabilities" v-if="selectedOption === 'choice'"
         @writeOptionClick="selectedOption = 'write'" @continueStory="continueStory" />
-        <StoryProceedWrite v-if="selectedOption === 'write'" @choiceOptionClick="selectedOption = 'choice'"
+    <StoryProceedWrite v-if="selectedOption === 'write'" @choiceOptionClick="selectedOption = 'choice'"
         :narrative="narrative" @continueStory="continueStoryCustom" />
 </template>
 
@@ -32,21 +31,28 @@ export default {
     methods: {
         continueStory(selectedChoice) {
             var story_id = this.$route.params['story_id']
+            let loader = this.$loading.show()
+
             api.post(`story/${story_id}/build/continue`, { prompt: selectedChoice.narrative }).then(
                 (res) => {
                     var board_id = res.data.board_id
                     this.$emit("continueStory", board_id)
                 }
-            )
+            ).finally(() => {
+                loader.hide()
+            })
         },
         continueStoryCustom(enteredText) {
             var story_id = this.$route.params['story_id']
+            let loader = this.$loading.show()
             api.post(`story/${story_id}/build/continue`, { prompt: enteredText }).then(
                 (res) => {
                     var board_id = res.data.board_id
                     this.$emit("continueStory", board_id)
                 }
-            )
+            ).finally(() => {
+                loader.hide()
+            })
         }
     }
 }

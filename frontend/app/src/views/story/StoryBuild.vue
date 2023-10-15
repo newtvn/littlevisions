@@ -2,7 +2,7 @@
     <div class="story-build-screen">
         <Transition name="fade">
 
-            <CharacterCreateModal v-if="showCharacterModal" @close="showCharacterModal=false" @create="createCharacter"/>
+            <CharacterCreateModal v-if="showCharacterModal" @close="showCharacterModal = false" @create="createCharacter" />
         </Transition>
         <slideout @closing="onClosing" v-model="panelVisible" dock="bottom" size="600px">
             <StoryProceed :probabilities="probabilities" :narrative="storyboard.narrative" @continueStory="nextBoard"
@@ -12,18 +12,20 @@
 
         <StoryBoardPanel />
 
-        <CharacterPanel @createCharacter="showCharacterModal=true"/>
+        <CharacterPanel @createCharacter="showCharacterModal = true" />
 
-        <div class="extra-controls row">
-            <div class="row default-gap">
-                <i class="fa fa-heart"></i>
-                <p class="caption">Like</p>
+        <div class="extra-controls row" style="align-self: self-end;">
+            <div class="row default-gap label-indicator">
 
+                <p class="fancy-label">Preview Your Story</p>
+                <i class="fa fa-arrow-right indicator"></i>
+                <button class="circle-btn center-container bg-tertiary" @click="$router.push({name:'play-story',params:{
+                    story_id: $route.params['story_id'],
+                }})">
+                    <i class="fa fa-play"> </i>
+                </button>
             </div>
-            <div class="row default-gap">
-                <i class="fa fa-flag"></i>
-                <p class="caption">Report</p>
-            </div>
+
         </div>
 
 
@@ -81,17 +83,17 @@ export default {
                 }
             })
         },
-        createCharacter(name,personality,actions){
+        createCharacter(name, personality, actions) {
             this.showCharacterModal = false
             var story_id = this.$route.params['story_id']
-            api.post(`story/${story_id}/build/character/continue`,{
+            api.post(`story/${story_id}/build/character/continue`, {
                 name: name,
                 personality: personality,
                 actions: actions
-            }).then(res=>{
+            }).then(res => {
                 this.nextBoard(res.data.board_id)
             })
-        
+
         },
         async getStory() {
             var story_id = this.$route.params['story_id']

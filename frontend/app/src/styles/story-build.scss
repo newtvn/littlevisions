@@ -98,6 +98,7 @@
     display: none; /* Safari and Chrome */
   }
   .storyboard-item {
+    position: relative;
     // margin: $default-padding 0;
     transition: scale 0.3s ease-out;
     opacity: 0.8;
@@ -236,4 +237,14 @@
   background-color: black;
   color: white;
   font-weight: 500;
+}
+.storyboard-item .music-overlay{
+  position: absolute;
+  bottom: $default-padding;
+  right: $default-padding;
+  background-color: rgba($color: white, $alpha: 0.8);
+  width: fit-content;
+  padding: $default-padding;
+  border-radius: 50%;
+  font-size: small;
 }

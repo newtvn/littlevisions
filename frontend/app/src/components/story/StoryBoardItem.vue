@@ -1,6 +1,9 @@
 <template>
     <div class="storyboard-item" @click="itemClick" :class="{ active: $route.params['board_id'] === item.id }">
         <img :src="image_url" alt="">
+        <div class="music-overlay" v-if="'music_url' in item">
+            <i class="fa fa-music"></i>
+        </div>
     </div>
 </template>
 <script>
@@ -39,6 +42,7 @@ export default {
 
     },
     mounted() {
+    
         if ("image_url" in this.$props.item) {
             this.image_url = this.$props.item.image_url
         }

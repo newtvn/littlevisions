@@ -53,6 +53,7 @@ export default {
 
         },
         createStoryFromWrite(text) {
+            let loader = this.$loading.show()
 
             api.post("story/create/prompt", {
                 prompt: text
@@ -61,6 +62,8 @@ export default {
                 this.goToStoryBuild(data.story_id, data.board_id)
             }).catch(e=>{
                 console.log(e)
+            }).finally(()=>{
+                loader.hide()
             })
         },
         startCardClick() {

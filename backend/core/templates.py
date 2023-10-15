@@ -30,6 +30,14 @@ CHARACTER_LIST_PROMPT = PromptTemplate(
     },
 )
 
+CHARACTER_CREATE_PROMPT = PromptTemplate(
+    input_variables=["name", "actions", "personality", "narrative"],
+    template="Extend this narrative relevantly by creating a character with the following description: name: {name}, descriptions: {personality}, actions: {actions} Return only the extended part.{narrative} In 30 words max. {format_instructions}",
+    partial_variables={
+        "format_instructions": STORY_CREATE_PROMPT_PARSER.get_format_instructions()
+    },
+)
+
 RANDOM_STORY_TITLES_PROMPT_PARSER = create_parser(StoryList)
 
 RANDOM_STORY_TITLES_PROMPT = PromptTemplate(
@@ -41,9 +49,9 @@ RANDOM_STORY_TITLES_PROMPT = PromptTemplate(
 )
 
 EXTEND_STORY_WITH_CUSTOM_PROMPT = PromptTemplate(
-    input_variables= ["pre_narrative","prompt"],
-    template= "Extend this narrative {pre_narrative} using the following prompt {prompt}. Return only the extended part. {format_instructions}",
-    partial_variables= {
+    input_variables=["pre_narrative", "prompt"],
+    template="Extend this narrative {pre_narrative} using the following prompt {prompt}. Return only the extended part. {format_instructions}",
+    partial_variables={
         "format_instructions": STORY_CREATE_PROMPT_PARSER.get_format_instructions()
-    }
+    },
 )

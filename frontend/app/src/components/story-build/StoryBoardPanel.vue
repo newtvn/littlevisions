@@ -8,6 +8,16 @@
             
 
         </div>
+        <div class="style-selector row default-gap">
+            <p class="caption">Art Style</p>
+            <select name="" class="dropdown-selector">
+                <option>Fantasy Art</option>
+                <option>Anime</option>
+                <option>Cartoon</option>
+                <option>Comic Book</option>
+            </select>
+
+        </div>
     </div>
 </template>
 

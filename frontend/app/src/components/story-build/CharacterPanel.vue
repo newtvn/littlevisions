@@ -7,7 +7,7 @@
 
         </div>
 
-        <button class="circle-btn scale-hover" id="character-panel-add-btn">
+        <button class="circle-btn scale-hover" id="character-panel-add-btn" @click="$emit('createCharacter')">
             <i class="fa fa-plus"></i>
         </button>
     </div>

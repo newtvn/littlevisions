@@ -5,7 +5,7 @@ from .openai_key import openai_key
 from .image_gen import ImageGenerator
 from typing import List
 
-llm = OpenAI(temperature=0.4)
+llm = OpenAI(temperature=0.8)
 
 
 def create_story_from_prompt(prompt: str) -> StoryPart:
@@ -59,6 +59,19 @@ def get_characters_from_narrative(narrative: str) -> CharacterList:
     res = chain.run(narrative)
     output = CHARACTER_LIST_PROMPT_PARSER.parse(res)
     return output
+
+
+def extend_narrative_by_character_creation(
+    narrative: str, name: str, actions: str, personality: str
+) -> StoryPart:
+    """
+    Extends the narrative by creating a new character
+    """
+    chain = LLMChain(llm=llm, prompt=CHARACTER_CREATE_PROMPT)
+    res = chain.run(
+        narrative=narrative, name=name, personality=personality, actions=actions
+    )
+    return STORY_CREATE_PROMPT_PARSER.parse(res)
 
 
 def generate_image_from_prompt(prompt: str) -> str:

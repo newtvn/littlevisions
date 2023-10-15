@@ -106,6 +106,26 @@ async def build_story(story_id: str, prompt: CustomPrompt):
         "board_id": board_id,
     }
 
+@app.post('/story/{story_id}/build/character/continue')
+async def build_story_by_character(story_id:str, character:Character):
+    """
+    Builds a story by adding a new character
+    """
+    pre_narrative = await firebase_functions.get_story_narrative(story_id)
+    extended_narrative_dict = extend_narrative_by_character_creation(
+        narrative=pre_narrative,
+        name=character.name,
+        actions=character.actions,
+        personality=character.personality
+    )
+    board_id = await firebase_functions.create_story_board(
+        story_id, extended_narrative_dict.model_dump()
+    )
+    return {
+        "message": "Board created",
+        "board_id": board_id,
+    }
+
 
 @app.get("/story/{story_id}/characters/")
 async def get_story_characters(story_id: str):

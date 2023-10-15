@@ -145,6 +145,16 @@ input {
 .margin-left-auto{
   margin-left: auto;
 }
+.large-text{
+  font-size: 30px;
+}
+.full-width-container{
+  width: 100%;
+}
+.f500{
+  font-weight: 500;
+}
+
 @import "./chat-bubble.scss";
 @import "./buttons.scss";
 @import "./forms.scss";

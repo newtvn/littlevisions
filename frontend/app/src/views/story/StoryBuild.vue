@@ -1,14 +1,18 @@
 <template>
     <div class="story-build-screen">
+        <Transition name="fade">
+
+            <CharacterCreateModal v-if="showCharacterModal" @close="showCharacterModal=false" @create="createCharacter"/>
+        </Transition>
         <slideout @closing="onClosing" v-model="panelVisible" dock="bottom" size="600px">
-            <StoryProceed :probabilities="probabilities" narrative="The narrative will go here"
-                @continueStory="nextBoard" />
+            <StoryProceed :probabilities="probabilities" :narrative="storyboard.narrative" @continueStory="nextBoard"
+                v-if="storyboard" />
         </slideout>
         <StoryPanel @continueStory="continueStory" :storyboard="storyboard" v-if="storyboard" />
 
         <StoryBoardPanel />
 
-        <CharacterPanel />
+        <CharacterPanel @createCharacter="showCharacterModal=true"/>
 
         <div class="extra-controls row">
             <div class="row default-gap">
@@ -38,11 +42,12 @@ import StoryPanel from '@/components/story-build/StoryPanel.vue'
 import { getStoryboardDoc } from "@/firebase"
 import { getDoc } from 'firebase/firestore'
 import StoryProceed from '@/components/story-build/StoryProceed.vue'
+import CharacterCreateModal from '@/components/story/modals/CharacterCreateModal.vue'
 import api from '@/plugins/axios_utils'
 export default {
     components: {
         CharacterPanel, StoryPanel,
-        StoryProceed, StoryBoardPanel
+        StoryProceed, StoryBoardPanel, CharacterCreateModal
     },
     data() {
         return {
@@ -50,7 +55,8 @@ export default {
             selectedChoice: null,
             storyboard: null,
             probabilities: [
-            ]
+            ],
+            showCharacterModal: false
 
         }
     },
@@ -74,6 +80,18 @@ export default {
                     board_id: board_id
                 }
             })
+        },
+        createCharacter(name,personality,actions){
+            this.showCharacterModal = false
+            var story_id = this.$route.params['story_id']
+            api.post(`story/${story_id}/build/character/continue`,{
+                name: name,
+                personality: personality,
+                actions: actions
+            }).then(res=>{
+                this.nextBoard(res.data.board_id)
+            })
+        
         },
         async getStory() {
             var story_id = this.$route.params['story_id']

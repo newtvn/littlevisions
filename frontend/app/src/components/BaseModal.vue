@@ -2,7 +2,7 @@
     <Teleport to="#app">
 
         <div class="modal-backdrop">
-            <div class="modal fade-in-element">
+            <div class="modal fade-in-element" :id="id">
                 <div class="close-btn icon-btn" @click="$emit('close')">
                     <i class="fas fa-times"></i>
                 </div>
@@ -21,7 +21,8 @@
 </template>
 <script>
 export default{
-    name: "BaseModal"
+    name: "BaseModal",
+    props:['id']
 }
 </script>
 <style lang="scss">

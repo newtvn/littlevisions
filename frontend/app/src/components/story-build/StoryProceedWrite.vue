@@ -1,8 +1,14 @@
 <template>
+      <div class="center-container" id="path-selector-header">
+        <div class="image-header row default-gap">
+            <img src="@/assets/images/choice.png" alt="">
+            <h1 class="slideout-title">Choose Your Next Path</h1>
+        </div>
+    </div>
     <div class="container" id="story-choice-write-container">
         <div class="center-container">
 
-            <p class="current-narrative">{{ narrative }}</p>
+            <!-- <p class="current-narrative">{{ narrative }}</p> -->
         </div>
 
 
@@ -20,7 +26,7 @@
                 <div class="row default-gap label-indicator">
 
 
-                    <button class="circle-btn center-container" @click="$emit('choiceOptionClick')">
+                    <button class="circle-btn center-container bg-secondary" @click="$emit('choiceOptionClick')">
                         <i class="fa fa-pencil"> </i>
                     </button>
                     <i class="fa fa-arrow-left indicator"></i>

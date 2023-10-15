@@ -76,25 +76,29 @@
   color: $primary-color;
   margin-left: $default-padding * 2;
 }
-.storyboard-panel-list {
+.storyboard-panel{
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  gap: $default-padding * 2;
 }
 .storyboard-panel-list {
   margin: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: $default-padding;
   // overflow-y: scroll;
   // overflow-x: visible;
-  height: 90%;
-  scrollbar-width: none; 
+  height: 80%;
+  scrollbar-width: none;
   overflow-x: visible;
   overflow-y: scroll;
 
-  &::-webkit-scrollbar { 
-    display: none;  /* Safari and Chrome */
-}
+  &::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
   .storyboard-item {
+    // margin: $default-padding 0;
     transition: scale 0.3s ease-out;
     opacity: 0.8;
 
@@ -116,50 +120,7 @@
     scale: 1.07;
   }
 }
-#story-path-container {
-  display: flex;
-  // align-items: center;
-  height: 100%;
-  padding: 0 25px;
-}
-.path-card-list {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  height: inherit;
-  gap: 20px;
-}
-.path-card {
-  width: 120px;
-  height: 130px;
-  border-radius: 20px;
-  cursor: pointer;
-}
-.path-card-front-title {
-  font-size: 40px;
-}
-.path-card-back-title {
-  font-size: 20px;
-  text-align: center;
-  padding: 0 5px;
-  font-weight: 600;
-}
-.path-text-container {
-  display: grid;
-  height: 85%;
-  width: 100%;
-  grid-template-rows: 90% 10%;
-  margin-left: 50px;
 
-  button {
-    margin-left: auto;
-  }
-  .avatar-speak {
-    img {
-      height: 50%;
-    }
-  }
-}
 .path-text-view {
   align-self: center;
   .story-text {
@@ -185,9 +146,9 @@
   flex-direction: column;
   justify-content: space-between;
   height: 80%;
-  padding: 0 25px;
+  
   .form-container {
-    padding: 0 25px;
+    padding: 0 50px;
   }
   .current-narrative {
     font-size: 25px;
@@ -195,10 +156,10 @@
     color: $muted-grey;
   }
 }
-.character-container{
+.character-container {
   position: relative;
 }
-.character-detail-container{
+.character-detail-container {
   position: absolute;
   top: -220px;
   left: 0;
@@ -208,20 +169,71 @@
   border-radius: 10px;
   max-height: 250px;
   width: 300px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
-  img{
+  img {
     width: 150px;
     height: 150px;
     object-fit: cover;
   }
-  .character-name{
+  .character-name {
     font-size: 20px;
     font-weight: 500;
   }
-  .character-description{
+  .character-description {
     margin-top: $default-padding;
     font-size: 15px;
     color: $muted-grey;
   }
+}
+.paths-selector {
+  // width: 100%;
+  margin: 60px 0;
+}
+.path-text-container {
+  width: 60vw;
+  margin: 0 30px;
+  padding: 40px;
+  border-radius: 20px;
+  min-height: 35vh;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+.path-indicators{
+
+  margin: 20px 0;
+}
+.path-indicator{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: $muted-grey;
+  transition: scale .3s ease-in-out;
+}
+.path-indicator.active{
+  background-color: $primary-color;
+  scale: 1.1;
+}
+#story-path-container,#story-choice-write-container{
+  .story-controls{
+    padding: 0 50px;
+  }
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.dropdown-selector{
+  padding: $default-padding/2 $default-padding;
+  border-radius: 20px;
+  background-color: black;
+  color: white;
+  font-weight: 500;
 }

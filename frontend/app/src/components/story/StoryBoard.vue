@@ -15,6 +15,7 @@
                 <StoryBoardItem v-for="item in items" :key="item.id" :story="item" />
             </div>
         </div>
+    
     </div>
 </template>
 <script>

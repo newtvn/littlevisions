@@ -4,7 +4,11 @@ from typing import List
 
 class Story(BaseModel):
     title :str = Field(description="Story title")
-    mood :str = Field(description="Mood of the story")
+    genre :str = Field(description="Genre of the story")
+    cover :str = Field(description="Image description for the cover image of the story")
+    synopsis :str = Field(description="Synopsis of the story")
+
+
 
 class StoryList(BaseModel):
     stories: List[Story]

@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from core.functions import *
+from core.music_gen import MusicGenerator
 from core.narration_gen import NarrationGenerator
 from models import *
 from firebase import functions as firebase_functions
@@ -106,8 +107,9 @@ async def build_story(story_id: str, prompt: CustomPrompt):
         "board_id": board_id,
     }
 
-@app.post('/story/{story_id}/build/character/continue')
-async def build_story_by_character(story_id:str, character:Character):
+
+@app.post("/story/{story_id}/build/character/continue")
+async def build_story_by_character(story_id: str, character: Character):
     """
     Builds a story by adding a new character
     """
@@ -116,7 +118,7 @@ async def build_story_by_character(story_id:str, character:Character):
         narrative=pre_narrative,
         name=character.name,
         actions=character.actions,
-        personality=character.personality
+        personality=character.personality,
     )
     board_id = await firebase_functions.create_story_board(
         story_id, extended_narrative_dict.model_dump()
@@ -211,3 +213,41 @@ async def generate_board_narration(story_id: str, board_id: str):
             story_id, board_id, {"narration_url": public_url}
         )
         return {"narration_url": public_url}
+
+
+@app.get("story/{story_id}/music/generate/{board_id}")
+async def generate_board_music(story_id: str, board_id):
+    """
+    Generates the music for a given storyboard
+    """
+    storyboard = await firebase_functions.get_storyboard(story_id, board_id)
+
+    storyboard = await storyboard.get()
+    storyboard = storyboard.to_dict()
+    if "music_url" in storyboard:
+        return {"music_url": storyboard["music_url"]}
+    else:
+        music_prompt = storyboard["music_description"]
+        music_gen = MusicGenerator(music_prompt)
+        music_bytes = music_gen.generate()
+        output_path = f"./tmp/music/{board_id}.mp3"
+        music_gen.write_to_file(music_bytes, output_path)
+        public_url = upload.uploadFile(output_path)
+        await firebase_functions.update_storyboard(
+            story_id, board_id, {"music_url": public_url}
+        )
+        return {"music_url": public_url}
+
+@app.get("story/{story_id}/build/finish")
+async def finalize_story(story_id: str):
+    """
+    Finish a story given the story id
+    """
+    narrative = firebase_functions.get_story_narrative(story_id)
+    conclusion = conclude_story(narrative)
+    firebase_functions.create_story_board(story_id, conclusion.model_dump())
+    story = finish_story(narrative)
+    await firebase_functions.finish_story(story_id, story.model_dump)
+    return {"message": "Story has been marked as finished", "story": story.model_dump()}
+
+  

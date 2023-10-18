@@ -1,6 +1,6 @@
 from langchain.prompts import PromptTemplate
 from .parsers import create_parser
-from .models import StoryPart, PathList, CharacterList, StoryList
+from .models import Story, StoryPart, PathList, CharacterList, StoryList
 
 
 STORY_CREATE_PROMPT_PARSER = create_parser(StoryPart)
@@ -54,4 +54,21 @@ EXTEND_STORY_WITH_CUSTOM_PROMPT = PromptTemplate(
     partial_variables={
         "format_instructions": STORY_CREATE_PROMPT_PARSER.get_format_instructions()
     },
+)
+
+STORY_CONCLUSION_PROMPT = PromptTemplate(
+    input_variables=['narrative'],
+    template="Finish this story with a relevant conclusion. Return only the concluded part{narrative}. {format_instructions}",
+    partial_variables= {
+        "format_instructions": STORY_CREATE_PROMPT_PARSER.get_format_instructions()
+    }
+)
+
+STORY_PARSER = create_parser(Story)
+FINISH_STORY_PROMPT = PromptTemplate(
+    input_variables= ["narrative"],
+    template = "Given the following narrative {narrative}, generate the following: {format_instructions}",
+    partial_variables= {
+        "format_instructions": STORY_PARSER.get_format_instructions()
+    }
 )

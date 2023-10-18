@@ -69,6 +69,7 @@ async def create_story(story_document: dict, board_document: dict):
     Creates a story and its first storyboard and pushes it to firebaee
     """
     story_document["datetime"] = firestore.SERVER_TIMESTAMP
+    story_document["finished"] = False
     _, ref = await store.collection("stories").add(story_document)
     story_board_ref = await create_story_board(ref.id, board_document)
 
@@ -151,3 +152,11 @@ async def create_narrative_paths(story_id: str, board_id: str, paths: list):
         await store.collection("stories").document(story_id).collection(
             "storyboard"
         ).document(board_id).collection("paths").add(path)
+
+async def finish_story(story_id: str, document):
+    """
+    Sets a story to finished
+    """
+    document["date_finished"] = firestore.SERVER_TIMESTAMP
+    await store.collection("stories").document(story_id).update(document)
+    return True

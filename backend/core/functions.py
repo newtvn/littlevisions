@@ -1,5 +1,6 @@
 from langchain.chains import LLMChain, SequentialChain
 from langchain.llms import OpenAI
+from langchain.memory import SimpleMemory
 from .templates import *
 from .openai_key import openai_key
 from .image_gen import ImageGenerator
@@ -80,3 +81,24 @@ def generate_image_from_prompt(prompt: str) -> str:
     """
     image_gen = ImageGenerator(prompt=prompt)
     return image_gen.generate()
+
+
+def conclude_story(narrative: str) -> StoryPart:
+    """
+    Returns a conclusion of a story
+    """
+    conclude_story_chain = LLMChain(
+        llm=llm, prompt=STORY_CONCLUSION_PROMPT, output_key="conclusion"
+    )
+    res = conclude_story_chain.run(narrative)
+    return STORY_CREATE_PROMPT_PARSER.parse(res)
+
+def finish_story(narrative :str) ->Story:
+    """
+    Finishes a story
+    """
+    finish_story_chain = LLMChain(
+        llm=llm, prompt=FINISH_STORY_PROMPT, output_key="conclusion"
+    )
+    res = finish_story_chain.run(narrative)
+    return STORY_PARSER.parse(res)

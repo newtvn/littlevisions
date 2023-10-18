@@ -53,7 +53,16 @@
   .image-header{
     
     background-color: $primary-color;
+    
     width: 100%;
+  }
+  .googly-eyes{
+    scale: 0.6;
+    width: fit-content;
+    margin: 0 auto;
+    .inner-eye{
+      background-color: $primary-color;
+    }
   }
 }
 .modal-header-image{

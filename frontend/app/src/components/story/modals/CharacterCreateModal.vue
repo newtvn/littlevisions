@@ -4,7 +4,10 @@
             <div class="modal-header-image center-container">
 
                 <div class="image-header">
-                    <img src="@/assets/images/spongebob.png" alt="">
+                    <div class="padded-container">
+
+                        <GooglyEyes/>
+                    </div>
                 </div>
                 <p class="modal-title">Create A Character</p>
             </div>
@@ -67,9 +70,10 @@
 </template>
 <script>
 import BaseModal from '@/components/BaseModal.vue';
+import GooglyEyes from '@/components/GooglyEyes.vue';
 export default {
     components: {
-        BaseModal
+        BaseModal,GooglyEyes
     },
     data() {
         return {

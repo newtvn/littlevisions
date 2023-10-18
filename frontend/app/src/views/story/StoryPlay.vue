@@ -74,19 +74,27 @@ export default {
                 this.activeIndex++
             }
         },
+        stopAllSounds(){
+            if(this.narration_sound){
+                this.narration_sound.stop()
+            }
+            if(this.music_sound){
+                this.music_sound.stop()
+            }
+        },
         textComplete() {
-            setTimeout(()=>{
-                if(this.narration_sound){
+            // setTimeout(()=>{
+            //     if(this.narration_sound){
 
-                    this.narration_sound.stop()
-                }
-                if(this.music_sound){
+            //         this.narration_sound.stop()
+            //     }
+            //     if(this.music_sound){
 
-                    this.music_sound.fade(0,1)
-                }
+            //         this.music_sound.fade(0,1)
+            //     }
 
-                this.goToNext()
-            },2000)
+            //     this.goToNext()
+            // },2000)
 
         },
         getSoundsArray() {
@@ -106,7 +114,8 @@ export default {
                 this.music_sound = new Howl({
                     src: this.activeStory.music_url,
                     autoplay: true,
-                    volume: 0.1
+                    volume: 0.3,
+                    loop:true
                 })
 
 
@@ -126,7 +135,11 @@ export default {
     },
     watch: {
         activeStory() {
-            this.playSound()
+            this.stopAllSounds()
+            setTimeout(()=>{
+
+                this.playSound()
+            },400)
         }
     },
     mounted() {
@@ -140,6 +153,9 @@ export default {
         })
 
 
+    },
+    beforeUnmount(){
+        this.stopAllSounds()
     }
 }
 

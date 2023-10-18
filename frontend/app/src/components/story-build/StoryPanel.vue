@@ -12,7 +12,7 @@
                 <div class="row default-gap label-indicator">
 
 
-                    <button class="circle-btn center-container">
+                    <button class="circle-btn center-container" @click="$emit('finishStory')">
                         <i class="fa fa-flag-checkered"> </i>
                     </button>
                     <i class="fa fa-arrow-left indicator"></i>

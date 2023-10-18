@@ -1,7 +1,7 @@
 <template>
     <div class="storyboard-item" @click="itemClick" :class="{ active: $route.params['board_id'] === item.id }">
         <img :src="image_url" alt="">
-        <div class="music-overlay" v-if="'music_url' in item">
+        <div class="music-overlay" v-if="music_url">
             <i class="fa fa-music"></i>
         </div>
     </div>
@@ -21,7 +21,8 @@ export default {
     },
     data() {
         return {
-            image_url: null
+            image_url: null,
+            music_url: null
         }
     },
     methods: {
@@ -34,20 +35,38 @@ export default {
             if (!("image_url" in this.$props.item)) {
                 api.get(`story/${story_id}/image/generate/${board_id}`).then(res => {
                     this.image_url = res.data.image_url
-                }).catch(e=>{
+                }).catch(e => {
                     console.log(e)
                 })
             }
+        },
+        getMusicUrl() {
+            var story_id = this.$route.params['story_id']
+            var board_id = this.$props.item.id
+            if (!("music_url" in this.$props.item)) {
+                api.get(`story/${story_id}/music/generate/${board_id}`).then(res => {
+                    this.music_url = res.data.music_url
+                }).catch(e => {
+                    console.log(e)
+                })
+            }
+
         }
 
     },
     mounted() {
-    
+
         if ("image_url" in this.$props.item) {
             this.image_url = this.$props.item.image_url
         }
         else {
             this.getImageUrl()
+        }
+        if("music_url" in this.$props.item){
+            this.music_url = this.$props.item.music_url
+        }
+        else{
+            this.getMusicUrl()
         }
     }
 }

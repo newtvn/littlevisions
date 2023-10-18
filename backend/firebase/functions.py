@@ -166,7 +166,7 @@ async def get_composition(composition_id: str):
     """
     Gets the composition from firebase
     """
-    composition = await store.collection("composition").document(composition_id).get()
+    composition = await store.collection("compositions").document(composition_id).get()
     return composition.to_dict()
 
 async def create_composition_helper(composition_id: str, document: dict) ->List[str]:

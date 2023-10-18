@@ -209,7 +209,7 @@ async def generate_board_narration(story_id: str, board_id: str):
         output_path = f"./tmp/narrations/{board_id}.mp3"
 
         audio_gen.write_to_file(audio_bytes, output_path)
-        public_url = upload.uploadFile(output_path,destination_dir="narration")
+        public_url = upload.uploadFile(output_path, destination_dir="narration")
         await firebase_functions.update_storyboard(
             story_id, board_id, {"narration_url": public_url}
         )
@@ -234,7 +234,7 @@ async def generate_board_music(story_id: str, board_id):
         print(music_bytes)
         output_path = f"./tmp/music/{board_id}.mp3"
         music_gen.write_to_file(music_bytes, output_path)
-        public_url = upload.uploadFile(output_path,destination_dir="music")
+        public_url = upload.uploadFile(output_path, destination_dir="music")
         await firebase_functions.update_storyboard(
             story_id, board_id, {"music_url": public_url}
         )

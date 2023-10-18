@@ -6,7 +6,7 @@
         </Transition>
         <slideout @closing="onClosing" v-model="panelVisible" dock="bottom" size="600px">
             <StoryProceed :probabilities="probabilities" :narrative="storyboard.narrative" @continueStory="nextBoard"
-                v-if="storyboard" />
+                v-if="storyboard" @finishStory="finishStory"/>
         </slideout>
         <StoryPanel @continueStory="continueStory" :storyboard="storyboard" v-if="storyboard" />
 
@@ -72,6 +72,7 @@ export default {
                 this.panelVisible = false;
             }
         },
+        
         nextBoard(board_id) {
             this.panelVisible = false
             var story_id = this.$route.params['story_id']
@@ -111,13 +112,17 @@ export default {
             var story_id = this.$route.params['story_id']
             var board_id = this.$route.params["board_id"]
 
-
             api.get(`story/${story_id}/build/${board_id}/path`).then(res => {
                 this.probabilities = res.data.paths
             }).catch(e => {
                 console.log(e)
-                this.getProbabilities()
+                // this.getProbabilities()
             })
+        },
+        finishStory(){
+
+            console.log("ABOUT TO FINISH YOU STORY")
+
         }
     },
     mounted() {

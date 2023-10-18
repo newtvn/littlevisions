@@ -8,10 +8,16 @@ import StoryCreate from "../views/story/StoryCreate.vue";
 import StoryMine from "../views/story/StoryMine.vue";
 import LibraryView from "../views/LibraryView.vue";
 import FlipBookMental from "@/components/FlipBookMental.vue";
-import CharacterView from '@/views/story/CharacterView.vue';
+import CharacterView from "@/views/story/CharacterView.vue";
+import HomeView from "@/views/HomeView.vue";
 const routes = [
   {
     path: "/",
+    name: "UseSelect",
+    component: HomeView,
+  },
+  {
+    path: "/stories",
     name: "story",
     component: StoryView,
     children: [
@@ -20,6 +26,7 @@ const routes = [
         name: "story-home",
         component: StoryHome,
       },
+
       {
         path: "create/",
         name: "story-create",
@@ -31,31 +38,30 @@ const routes = [
         component: StoryMine,
       },
       {
-        path: "/library",
+        path: "library/",
         name: "library-home",
         component: LibraryView,
       },
       {
-        path: '/character/:id',
-        name: 'character-page',
-        component: CharacterView
-
-      }
+        path: "play/:story_id/",
+        name: "play-story",
+        component: StoryPlay,
+      },
+      {
+        path: "/character/:id",
+        name: "character-page",
+        component: CharacterView,
+      },
     ],
   },
 
   {
-    path: "/story/:story_id/build/:board_id?",
+    path: "/stories/:story_id/build/:board_id?/",
     name: "build-story",
     component: StoryBuild,
     meta: {
       watchParam: "board_id",
     },
-  },
-  {
-    path: "/story/play/:story_id",
-    name: "play-story",
-    component: StoryPlay,
   },
   {
     path: "/flipbook/:story_id",

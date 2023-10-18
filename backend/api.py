@@ -5,6 +5,7 @@ from core.narration_gen import NarrationGenerator
 from models import *
 from firebase import functions as firebase_functions
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import HTTPException
 from core.models import PathPart
 from firebase import upload
 
@@ -208,14 +209,14 @@ async def generate_board_narration(story_id: str, board_id: str):
         output_path = f"./tmp/narrations/{board_id}.mp3"
 
         audio_gen.write_to_file(audio_bytes, output_path)
-        public_url = upload.uploadFile(output_path)
+        public_url = upload.uploadFile(output_path,destination_dir="narration")
         await firebase_functions.update_storyboard(
             story_id, board_id, {"narration_url": public_url}
         )
         return {"narration_url": public_url}
 
 
-@app.get("story/{story_id}/music/generate/{board_id}")
+@app.get("/story/{story_id}/music/generate/{board_id}")
 async def generate_board_music(story_id: str, board_id):
     """
     Generates the music for a given storyboard
@@ -230,15 +231,17 @@ async def generate_board_music(story_id: str, board_id):
         music_prompt = storyboard["music_description"]
         music_gen = MusicGenerator(music_prompt)
         music_bytes = music_gen.generate()
+        print(music_bytes)
         output_path = f"./tmp/music/{board_id}.mp3"
         music_gen.write_to_file(music_bytes, output_path)
-        public_url = upload.uploadFile(output_path)
+        public_url = upload.uploadFile(output_path,destination_dir="music")
         await firebase_functions.update_storyboard(
             story_id, board_id, {"music_url": public_url}
         )
         return {"music_url": public_url}
 
-@app.get("story/{story_id}/build/finish")
+
+@app.get("/story/{story_id}/build/finish")
 async def finalize_story(story_id: str):
     """
     Finish a story given the story id
@@ -250,4 +253,22 @@ async def finalize_story(story_id: str):
     await firebase_functions.finish_story(story_id, story.model_dump)
     return {"message": "Story has been marked as finished", "story": story.model_dump()}
 
-  
+
+@app.get("/composition/{composition_id}/enhance/")
+async def enhance_composition(composition_id: str):
+    """
+    Enhance a composition creative guide
+    """
+    composition = await firebase_functions.get_composition(composition_id)
+    if composition:
+        composition_helpers = improve_composition(composition["narrative"])
+        helper_ids = []
+        for helper in composition_helpers.helpers:
+            _id = await firebase_functions.create_composition_helper(
+                composition_id, helper.model_dump()
+            )
+            helper_ids.append(_id)
+
+        return {"message": "Composition has been enhanced", "helper_ids": helper_ids}
+    else:
+        raise HTTPException(status_code=404, detail="Composition not found")

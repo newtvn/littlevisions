@@ -1,7 +1,6 @@
 from .firebase import store
-import time
 from firebase_admin import firestore
-
+from typing import List
 
 async def get_story(story_id: str):
     """
@@ -153,6 +152,7 @@ async def create_narrative_paths(story_id: str, board_id: str, paths: list):
             "storyboard"
         ).document(board_id).collection("paths").add(path)
 
+
 async def finish_story(story_id: str, document):
     """
     Sets a story to finished
@@ -160,3 +160,25 @@ async def finish_story(story_id: str, document):
     document["date_finished"] = firestore.SERVER_TIMESTAMP
     await store.collection("stories").document(story_id).update(document)
     return True
+
+
+async def get_composition(composition_id: str):
+    """
+    Gets the composition from firebase
+    """
+    composition = await store.collection("composition").document(composition_id).get()
+    return composition.to_dict()
+
+async def create_composition_helper(composition_id: str, document: dict) ->List[str]:
+    """
+    Pushes a composition helper for a composition
+    """ 
+    document["datetime"] = firestore.SERVER_TIMESTAMP
+
+    _, ref = (
+        await store.collection("composition")
+        .document(composition_id)
+        .collection("helpers")
+        .add(document)
+    )
+    return ref.id

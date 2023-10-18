@@ -1,6 +1,13 @@
 from langchain.prompts import PromptTemplate
 from .parsers import create_parser
-from .models import Story, StoryPart, PathList, CharacterList, StoryList
+from .models import (
+    CompositionHelpers,
+    Story,
+    StoryPart,
+    PathList,
+    CharacterList,
+    StoryList,
+)
 
 
 STORY_CREATE_PROMPT_PARSER = create_parser(StoryPart)
@@ -57,18 +64,25 @@ EXTEND_STORY_WITH_CUSTOM_PROMPT = PromptTemplate(
 )
 
 STORY_CONCLUSION_PROMPT = PromptTemplate(
-    input_variables=['narrative'],
+    input_variables=["narrative"],
     template="Finish this story with a relevant conclusion. Return only the concluded part{narrative}. {format_instructions}",
-    partial_variables= {
+    partial_variables={
         "format_instructions": STORY_CREATE_PROMPT_PARSER.get_format_instructions()
-    }
+    },
 )
 
 STORY_PARSER = create_parser(Story)
 FINISH_STORY_PROMPT = PromptTemplate(
-    input_variables= ["narrative"],
-    template = "Given the following narrative {narrative}, generate the following: {format_instructions}",
-    partial_variables= {
-        "format_instructions": STORY_PARSER.get_format_instructions()
-    }
+    input_variables=["narrative"],
+    template="Given the following narrative {narrative}, generate the following: {format_instructions}",
+    partial_variables={"format_instructions": STORY_PARSER.get_format_instructions()},
+)
+
+IMPROVE_COMPOSITION_PARSER = create_parser(CompositionHelpers)
+IMPROVE_COMPOSITION_PROMPT = PromptTemplate(
+    input_variables=["composition"],
+    template="I have a composition thats written by a kid, guide me step by step on how to make it better, creative and more cohesive. Emphasis on creative: {composition}. {format_instructions}",
+    partial_variables={
+        "format_instructions": IMPROVE_COMPOSITION_PARSER.get_format_instructions()
+    },
 )

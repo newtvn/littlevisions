@@ -93,7 +93,8 @@ def conclude_story(narrative: str) -> StoryPart:
     res = conclude_story_chain.run(narrative)
     return STORY_CREATE_PROMPT_PARSER.parse(res)
 
-def finish_story(narrative :str) ->Story:
+
+def finish_story(narrative: str) -> Story:
     """
     Finishes a story
     """
@@ -102,3 +103,15 @@ def finish_story(narrative :str) ->Story:
     )
     res = finish_story_chain.run(narrative)
     return STORY_PARSER.parse(res)
+
+
+def improve_composition(composition: str) -> CompositionHelpers:
+    """
+    Improve a composition function
+    """
+
+    improve_composition_chain = LLMChain(
+        llm=llm, prompt=IMPROVE_COMPOSITION_PROMPT, output_key="composition"
+    )
+    res = improve_composition_chain.run(composition)
+    return IMPROVE_COMPOSITION_PARSER.parse(res)

@@ -16,5 +16,6 @@ class MusicGenerator(Generator):
                 "duration": self.duration,
             },
         )
+        return output
     
 

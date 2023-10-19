@@ -92,6 +92,7 @@ export default {
                 personality: personality,
                 actions: actions
             }).then(res => {
+                api.get(`story/${story_id}/characters?restart=True`)
                 this.nextBoard(res.data.board_id)
             })
 
@@ -116,7 +117,7 @@ export default {
                 this.probabilities = res.data.paths
             }).catch(e => {
                 console.log(e)
-                // this.getProbabilities()
+                this.getProbabilities()
             })
         },
         finishStory(){

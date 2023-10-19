@@ -2,11 +2,12 @@
     <div class="story-text-panel story-build-panel">
         <div class="audio-controls">
             <div class="audio-indicator row default-gap" @click="playAudio">
-                <i class="fa-solid fa-microphone"></i>
+                <i class="fa-solid fa-pause" v-if="playing"></i> 
+                <i class="fa-solid fa-play" v-else></i>
                 David
             </div>
         </div>
-        <StoryText :text="storyboard.narrative" v-if="storyboard" />
+        <StoryText :text="storyboard.narrative" v-if="storyboard" :delay="70"/>
         <div class="story-controls">
             <div class="row space-btn">
                 <div class="row default-gap label-indicator">
@@ -46,15 +47,27 @@ export default {
     },
     data() {
         return {
-            narration_url: null
+            narration_url: null,
+            narration: null
+        }
+    },
+    computed:{
+        playing(){
+            if(this.narration){
+                return this.narration.playing()
+            }
+            return false
         }
     },
     methods: {
         playAudio() {
-            new Howl({
-                src: [this.narration_url],
-                autoplay: true
-            })
+            if(!(this.narration && this.narration.playing())){
+
+                this.narration= new Howl({
+                    src: [this.narration_url],
+                    autoplay: true
+                })
+            }
         },
         getAudio() {
             var story_id = this.$route.params['story_id']

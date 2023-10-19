@@ -3,7 +3,7 @@
         <p class="panel-subtitle">Your Characters</p>
         <div class="character-list row default-gap">
 
-           <CharacterItem v-for="character in characters" :key="character.id" :character="character"/>
+            <CharacterItem v-for="character in characters" :key="character.id" :character="character" />
 
         </div>
 
@@ -14,11 +14,12 @@
 </template>
 
 <script>
-import { firestore } from '@/firebase';
 import CharacterItem from './CharacterItem.vue';
-import { getDocs, query, collection } from 'firebase/firestore';
+import api from '@/plugins/axios_utils';
+import { getDocs } from 'firebase/firestore';
+import { getCharacters } from '@/firebase'
 export default {
-    components:{
+    components: {
         CharacterItem
     },
     data() {
@@ -27,21 +28,35 @@ export default {
         }
     },
     methods: {
-        async getCharacters() {
+
+        async getFromFirebase() {
             var story_id = this.$route.params['story_id']
-            var charactersCollection = collection(firestore, `stories/${story_id}/characters`)
-            getDocs(query(charactersCollection)).then(e => {
+
+            getDocs(getCharacters(story_id)).then(e => {
                 // console.log(e.docs)
                 this.characters = e.docs.map(doc => ({
                     ...doc.data(),
                     id: doc.id,
                 }))
-        })
+
+            })
+
+        },
+        async getCharacters() {
+            var story_id = this.$route.params['story_id']
+
+            api.get(`story/${story_id}/characters`)
+
 
         }
     },
     mounted() {
-        this.getCharacters()
+        this.getFromFirebase().then(() => {
+            if (this.characters.length == 0) {
+                this.getCharacters()
+            }
+
+        })
     }
 }
 </script>

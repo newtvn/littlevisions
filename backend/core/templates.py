@@ -81,7 +81,7 @@ FINISH_STORY_PROMPT = PromptTemplate(
 IMPROVE_COMPOSITION_PARSER = create_parser(CompositionHelpers)
 IMPROVE_COMPOSITION_PROMPT = PromptTemplate(
     input_variables=["composition"],
-    template="I have a composition thats written by a kid, guide me step by step on how to make it better, creative and more cohesive. Emphasis on creative: {composition}. {format_instructions}",
+    template="I have a composition thats written by a kid, guide me step by step on how to make it better, creative and more cohesive.Minimum of 2 helpers Emphasis on creative: {composition}. {format_instructions}",
     partial_variables={
         "format_instructions": IMPROVE_COMPOSITION_PARSER.get_format_instructions()
     },

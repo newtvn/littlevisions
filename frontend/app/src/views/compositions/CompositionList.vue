@@ -22,7 +22,7 @@ export default {
         return {
             compositions: [
                 {
-                    id: "shshs",
+                    id: "P9NmuKH1zt9DUkqVBbaq",
                     text: "a very long text",
                     title: "Mid-term composition refining",
                     comment: null,

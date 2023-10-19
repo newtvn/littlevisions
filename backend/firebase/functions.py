@@ -133,14 +133,17 @@ async def get_story_characters(story_id: str) -> list:
     return list(map(lambda x: x.to_dict(), characters))
 
 
-async def create_story_characters(story_id: str, characters: list):
+async def create_story_character(story_id: str, character:dict):
     """
-    Creates story characters from firebase by id
+    Creates story charactes from firebase by id
     """
-    for character in characters:
-        await store.collection("stories").document(story_id).collection(
-            "characters"
-        ).add(character)
+    
+    _,ref = await store.collection("stories").document(story_id).collection(
+        "characters"
+    ).add(character)
+    print(ref.id)
+
+    return ref.id
 
 
 async def create_narrative_paths(story_id: str, board_id: str, paths: list):
@@ -176,7 +179,7 @@ async def create_composition_helper(composition_id: str, document: dict) ->List[
     document["datetime"] = firestore.SERVER_TIMESTAMP
 
     _, ref = (
-        await store.collection("composition")
+        await store.collection("compositions")
         .document(composition_id)
         .collection("helpers")
         .add(document)

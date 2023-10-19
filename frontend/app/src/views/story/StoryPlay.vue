@@ -114,7 +114,7 @@ export default {
                 this.music_sound = new Howl({
                     src: this.activeStory.music_url,
                     autoplay: true,
-                    volume: 0.3,
+                    volume: 0.25,
                     loop:true
                 })
 

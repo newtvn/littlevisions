@@ -114,4 +114,5 @@ def improve_composition(composition: str) -> CompositionHelpers:
         llm=llm, prompt=IMPROVE_COMPOSITION_PROMPT, output_key="composition"
     )
     res = improve_composition_chain.run(composition)
+    print(res)
     return IMPROVE_COMPOSITION_PARSER.parse(res)

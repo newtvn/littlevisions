@@ -45,11 +45,7 @@ const routes = [
         name: "library-home",
         component: LibraryView,
       },
-      {
-        path: "play/:story_id/",
-        name: "play-story",
-        component: StoryPlay,
-      },
+      
       {
         path: "/character/:id",
         name: "character-page",
@@ -78,6 +74,11 @@ const routes = [
     meta: {
       watchParam: "board_id",
     },
+  },
+  {
+    path: "/story/play/:story_id/",
+    name: "play-story",
+    component: StoryPlay,
   },
   {
     path: "/compositions/enhancement/:composition_id",

@@ -1,5 +1,5 @@
 <template>
-  <NavBar />
+  <NavqqBar />
   <main id="">
 
     <div class="row feature-navigation-cards">

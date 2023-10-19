@@ -131,21 +131,21 @@ async def build_story_by_character(story_id: str, character: Character):
 
 
 @app.get("/story/{story_id}/characters/")
-async def get_story_characters(story_id: str):
+async def get_story_characters(story_id: str,restart:bool=False):
     """
     Gets the story characters from the narrative
     """
     story_characters = await firebase_functions.get_story_characters(story_id)
-    if len(story_characters) > 0:
+    if not restart and len(story_characters) > 0:
         return {"characters": story_characters}
     else:
         narrative = await firebase_functions.get_story_narrative(story_id)
         characters = get_characters_from_narrative(narrative)
-        characters_json = characters.model_dump()
-        await firebase_functions.create_story_characters(
-            story_id, characters_json["characters"]
-        )
-        return characters_json
+        for character in characters.characters:
+            _id = await firebase_functions.create_story_character(
+                story_id, character.model_dump()
+            )
+        return characters.model_dump()
 
 
 @app.get("/story/{story_id}/image/generate/{board_id}")
@@ -180,6 +180,7 @@ async def generate_character_image(story_id: str, character_id: str):
     character = await firebase_functions.get_character(story_id, character_id)
     character = await character.get()
     character = character.to_dict()
+    print(character)
     if "image_url" in character:
         return {"image_url": character["image_url"]}
     else:
@@ -261,7 +262,7 @@ async def enhance_composition(composition_id: str):
     """
     composition = await firebase_functions.get_composition(composition_id)
     if composition:
-        composition_helpers = improve_composition(composition["narrative"])
+        composition_helpers = improve_composition(composition["text"])
         helper_ids = []
         for helper in composition_helpers.helpers:
             _id = await firebase_functions.create_composition_helper(

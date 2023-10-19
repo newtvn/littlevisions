@@ -2,11 +2,11 @@
     <div class="composition-helper-card">
         <div class="composition-helper-title">
 
-            <p>{{ helper.title }}</p>
+            <p>{{ helper.helper_title }}</p>
         </div>
         <div class="composition-helper-description">
 
-            <p>{{ helper.description }}</p>
+            <p>{{ helper.helper_text }}</p>
         </div>
         .
         <button>Learn</button>

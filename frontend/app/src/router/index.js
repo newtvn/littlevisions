@@ -10,6 +10,9 @@ import LibraryView from "../views/LibraryView.vue";
 import FlipBookMental from "@/components/FlipBookMental.vue";
 import CharacterView from "@/views/story/CharacterView.vue";
 import HomeView from "@/views/HomeView.vue";
+import CompositionView from "@/views/CompositionView.vue";
+import CompositionEnhancement from "@/views/compositions/CompositionEnhancement.vue";
+import CompositionList from "@/views/compositions/CompositionList.vue";
 const routes = [
   {
     path: "/",
@@ -54,6 +57,19 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/compositions",
+    name: "compositions",
+    component: CompositionView,
+    children: [
+      {
+        path: "",
+        name: "compositions-list",
+        component: CompositionList,
+      },
+      
+    ],
+  },
 
   {
     path: "/stories/:story_id/build/:board_id?/",
@@ -62,6 +78,11 @@ const routes = [
     meta: {
       watchParam: "board_id",
     },
+  },
+  {
+    path: "/compositions/enhancement/:composition_id",
+    name: "composition-enhancement",
+    component: CompositionEnhancement,
   },
   {
     path: "/flipbook/:story_id",

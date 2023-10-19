@@ -1,5 +1,5 @@
 <template>
-    <div class="create-choice-card scale-hover">
+    <div class="create-choice-card card scale-hover">
 
         <img :src="require(`../../assets/images/${image}`)" alt="">
         <h2>{{ text }}</h2>

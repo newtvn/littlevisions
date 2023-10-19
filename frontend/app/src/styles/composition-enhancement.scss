@@ -1,0 +1,81 @@
+@import "./variables.scss";
+.composition-enhancement-page {
+  background-color: #eeeff1;
+}
+#composition-preview-section {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  height: 100vh;
+}
+.composition-writing-container {
+  background-color: white;
+  border-radius: 20px;
+  margin: 50px;
+  padding: 30px;
+  overflow-y: scroll;
+}
+.composition-helpers-container {
+  background-color: white;
+  border-radius: 20px;
+  margin: 50px;
+  overflow-y: scroll;
+}
+.composition-enhancement-page .composition-text {
+  line-height: 3;
+  font-size: 22px;
+  text-align: justify;
+}
+.composition-helpers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.composition-helper-card {
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 25px;
+  // margin: 10px 0;
+  .composition-helper-title {
+    font-weight: 600;
+    font-size: 20px;
+    // margin-bottom: 15px;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 1px;
+      background-color: rgba($color: gray, $alpha: 0.6);
+      margin-top: 5px;
+      margin-bottom: 20px;
+    }
+  }
+  button {
+    min-width: 100px;
+    background-color: transparent;
+    border: 1px solid grey;
+    font-size: small;
+    font-weight: 500;
+    max-height: 25px;
+    padding: $default-padding/3 $default-padding/2;
+  }
+  .composition-helper-description {
+    margin-bottom: 20px;
+  }
+}
+.composition-helper-card:nth-child(3n + 2) {
+  background-color: #b0e5db;
+}
+.composition-helper-card:nth-child(3n + 3) {
+  background-color: #edcee4;
+}
+.composition-helper-card:nth-child(3n + 1) {
+  background-color: #f7e495;
+}
+.composition-helper-card:nth-child(even) {
+  margin-left: 50px;
+  text-align: right;
+}
+.composition-helper-card:nth-child(odd) {
+  margin-right: 50px;
+}

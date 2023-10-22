@@ -1,0 +1,81 @@
+@import "./variables.scss";
+.page-title {
+  font-size: 35px;
+  font-weight: 600;
+}
+#my-stories section {
+  margin: 50px 0;
+}
+.section-title {
+  font-weight: 500;
+  font-size: 25px;
+  margin-bottom: $default-padding * 2;
+}
+.stories-book-card {
+}
+.stories-book-list {
+  display: flex;
+  gap: 50px;
+}
+.stories-book-card {
+  width: fit-content;
+  cursor: pointer;
+  .stories-book-name {
+    margin-top: $default-padding;
+  }
+  .stories-book-category {
+    margin-top: $default-padding/2;
+  }
+}
+.book-image-container {
+  position: relative;
+  width: 190px;
+  height: 230px;
+  background-color: #f3eef4;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+
+  img {
+    width: 60%;
+    height: 75%;
+    border-radius: 10px;
+  }
+  .number-of-pages-container {
+    background-color: white;
+    padding: $default-padding $default-padding;
+    position: absolute;
+    border-radius: 10px;
+    right: $default-padding;
+    bottom: $default-padding * 6;
+    font-size: smaller;
+    font-weight: 500;
+    gap: 15px;
+  }
+}
+.stories-book-name {
+  font-weight: normal;
+  font-size: 18px;
+  text-align: center;
+}
+.stories-book-category {
+  font-weight: 500;
+  font-size: small;
+  text-transform: uppercase;
+  text-align: center;
+  color: $muted-grey;
+}
+.exclusive-book-card {
+  width: 600px;
+  height: 300px;
+  background-color: red;
+  border-radius: 20px;
+  background-color: #f3eef4;
+  padding: $default-padding*3 $default-padding*2;
+  display: flex;
+}
+.exclusive-book-card-image {
+  width: 30%;
+  height: 100%;
+  border-radius: 20px;
+}

@@ -1,37 +1,31 @@
 <template>
     <div class="story-build-screen">
+        <Transition name="fade">
+
+            <CharacterCreateModal v-if="showCharacterModal" @close="showCharacterModal = false" @create="createCharacter" />
+        </Transition>
         <slideout @closing="onClosing" v-model="panelVisible" dock="bottom" size="600px">
-            <StoryProceed :probabilities="probabilities" narrative="The narrative will go here"/>
+            <StoryProceed :probabilities="probabilities" :narrative="storyboard.narrative" @continueStory="nextBoard"
+                v-if="storyboard" @finishStory="finishStory"/>
         </slideout>
-        <StoryPanel @continueStory="continueStory" />
+        <StoryPanel @continueStory="continueStory" :storyboard="storyboard" v-if="storyboard" />
 
-        <div class="storyboard-panel story-build-panel">
+        <StoryBoardPanel />
 
-            <p class="panel-subtitle" style="text-align: center;">Your Storyboard</p>
+        <CharacterPanel @createCharacter="showCharacterModal = true" />
 
-            <div class="storyboard-panel-list">
-                <div class="storyboard-item scale-hover">
-                    <img src="https://static.wikia.nocookie.net/spongebob/images/7/72/No_Weenies_Allowed_019.png/" alt="">
-                </div>
-                <div class="storyboard-item scale-hover">
-                    <img src="https://rhetoricandpopularculture.files.wordpress.com/2013/02/spongebob_mr_krabs_and_plankton.jpg"
-                        alt="">
-                </div>
+        <div class="extra-controls row" style="align-self: self-end;">
+            <div class="row default-gap label-indicator">
+
+                <p class="fancy-label">Preview Your Story</p>
+                <i class="fa fa-arrow-right indicator"></i>
+                <button class="circle-btn center-container bg-tertiary" @click="$router.push({name:'play-story',params:{
+                    story_id: $route.params['story_id'],
+                }})">
+                    <i class="fa fa-play"> </i>
+                </button>
             </div>
-        </div>
 
-        <CharacterPanel />
-
-        <div class="extra-controls row">
-            <div class="row default-gap">
-                <i class="fa fa-heart"></i>
-                <p class="caption">Like</p>
-
-            </div>
-            <div class="row default-gap">
-                <i class="fa fa-flag"></i>
-                <p class="caption">Report</p>
-            </div>
         </div>
 
 
@@ -45,35 +39,26 @@
 </style>
 <script>
 import CharacterPanel from '@/components/story-build/CharacterPanel.vue'
+import StoryBoardPanel from '@/components/story-build/StoryBoardPanel.vue'
 import StoryPanel from '@/components/story-build/StoryPanel.vue'
-
+import { getStoryboardDoc } from "@/firebase"
+import { getDoc } from 'firebase/firestore'
 import StoryProceed from '@/components/story-build/StoryProceed.vue'
+import CharacterCreateModal from '@/components/story/modals/CharacterCreateModal.vue'
+import api from '@/plugins/axios_utils'
 export default {
     components: {
         CharacterPanel, StoryPanel,
-        StoryProceed
+        StoryProceed, StoryBoardPanel, CharacterCreateModal
     },
     data() {
         return {
             panelVisible: false,
             selectedChoice: null,
+            storyboard: null,
             probabilities: [
-                {
-                    id: 1,
-                    text: "The hair met a very handsome prince and fell in love",
-                    title: "The Meetup"
-                },
-                {
-                    id: 2,
-                    text: "The hare fell in a very deep dark hole, with no one to call",
-                    title: "The Fall"
-                },
-                {
-                    id: 3,
-                    text: "The hare heard a scream and got very curious to what's happening",
-                    title: "The Scream"
-                },
-            ]
+            ],
+            showCharacterModal: false
 
         }
     },
@@ -86,7 +71,64 @@ export default {
 
                 this.panelVisible = false;
             }
+        },
+        
+        nextBoard(board_id) {
+            this.panelVisible = false
+            var story_id = this.$route.params['story_id']
+
+            this.$router.replace({
+                name: 'build-story', params: {
+                    story_id: story_id,
+                    board_id: board_id
+                }
+            })
+        },
+        createCharacter(name, personality, actions) {
+            this.showCharacterModal = false
+            var story_id = this.$route.params['story_id']
+            api.post(`story/${story_id}/build/character/continue`, {
+                name: name,
+                personality: personality,
+                actions: actions
+            }).then(res => {
+                api.get(`story/${story_id}/characters?restart=True`)
+                this.nextBoard(res.data.board_id)
+            })
+
+        },
+        async getStory() {
+            var story_id = this.$route.params['story_id']
+            var board_id = this.$route.params["board_id"]
+
+            getDoc(getStoryboardDoc(story_id, board_id)).then((data) => {
+
+                this.storyboard = data.data()
+                console.log(this.storyboard)
+            })
+
+        },
+
+        async getProbabilities() {
+            var story_id = this.$route.params['story_id']
+            var board_id = this.$route.params["board_id"]
+
+            api.get(`story/${story_id}/build/${board_id}/path`).then(res => {
+                this.probabilities = res.data.paths
+            }).catch(e => {
+                console.log(e)
+                this.getProbabilities()
+            })
+        },
+        finishStory(){
+
+            console.log("ABOUT TO FINISH YOU STORY")
+
         }
+    },
+    mounted() {
+        this.getStory()
+        this.getProbabilities()
     }
 }
 </script>

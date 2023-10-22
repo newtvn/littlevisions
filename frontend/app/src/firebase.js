@@ -31,6 +31,21 @@ export const storiesCollection = collection(firestore, "stories");
 export const getStoryboard = (id) => {
   return collection(firestore, `stories/${id}/storyboard`);
 };
+export const getStories = ()=>{
+  return collection(firestore,'stories')
+}
+export const getCharacters = (story_id) =>{
+  return collection(firestore,`stories/${story_id}/characters`)
+}
+export const getCompositions = ()=>{
+  return collection(firestore,"compositions")
+}
+export const getCompositionDoc = (composition_id)=>{
+  return doc(firestore,`compositions/${composition_id}`)
+}
+export const getCompositionHelpers = (composition_id) =>{
+  return collection(firestore,`compositions/${composition_id}/helpers`)
+}
 export const getStoryboardDoc = (story_id, board_id) => {
   return doc(firestore, `stories/${story_id}/storyboard/${board_id}`);
 };

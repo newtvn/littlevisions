@@ -8,10 +8,19 @@ import StoryCreate from "../views/story/StoryCreate.vue";
 import StoryMine from "../views/story/StoryMine.vue";
 import LibraryView from "../views/LibraryView.vue";
 import FlipBookMental from "@/components/FlipBookMental.vue";
-import CharacterView from '@/views/story/CharacterView.vue';
+import CharacterView from "@/views/story/CharacterView.vue";
+import HomeView from "@/views/HomeView.vue";
+import CompositionView from "@/views/CompositionView.vue";
+import CompositionEnhancement from "@/views/compositions/CompositionEnhancement.vue";
+import CompositionList from "@/views/compositions/CompositionList.vue";
 const routes = [
   {
     path: "/",
+    name: "UseSelect",
+    component: HomeView,
+  },
+  {
+    path: "/stories",
     name: "story",
     component: StoryView,
     children: [
@@ -20,6 +29,7 @@ const routes = [
         name: "story-home",
         component: StoryHome,
       },
+
       {
         path: "create/",
         name: "story-create",
@@ -31,21 +41,34 @@ const routes = [
         component: StoryMine,
       },
       {
-        path: "/library",
+        path: "library/",
         name: "library-home",
         component: LibraryView,
       },
+      
       {
-        path: '/character/:id',
-        name: 'character-page',
-        component: CharacterView
-
-      }
+        path: "/character/:id",
+        name: "character-page",
+        component: CharacterView,
+      },
+    ],
+  },
+  {
+    path: "/compositions",
+    name: "compositions",
+    component: CompositionView,
+    children: [
+      {
+        path: "",
+        name: "compositions-list",
+        component: CompositionList,
+      },
+      
     ],
   },
 
   {
-    path: "/story/:story_id/build/:board_id?",
+    path: "/stories/:story_id/build/:board_id?/",
     name: "build-story",
     component: StoryBuild,
     meta: {
@@ -53,9 +76,14 @@ const routes = [
     },
   },
   {
-    path: "/story/play/:story_id",
+    path: "/story/play/:story_id/",
     name: "play-story",
     component: StoryPlay,
+  },
+  {
+    path: "/compositions/enhancement/:composition_id",
+    name: "composition-enhancement",
+    component: CompositionEnhancement,
   },
   {
     path: "/flipbook/:story_id",

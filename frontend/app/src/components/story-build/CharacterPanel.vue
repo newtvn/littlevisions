@@ -2,32 +2,61 @@
     <div class="characters-panel story-build-panel row">
         <p class="panel-subtitle">Your Characters</p>
         <div class="character-list row default-gap">
-            <div class="character-item scale-hover" @click="$router.push({name:'character-page',params:{id:1}})">
-                <div class="character-image">
-                    <img src="https://assets.nick.com/uri/mgid:arc:imageassetref:shared.nick.us:a625d441-bbbf-42c8-9927-6a0157aac911?quality=0.7&gen=ntrn&legacyStatusCode=true"
-                        alt="">
-                </div>
-            </div>
-            <div class="character-item scale-hover">
-                <div class="character-image">
-                    <img src="https://i.pinimg.com/564x/92/52/7b/92527b5b5e7320a9ad3e75023215ba5b.jpg" alt="">
-                </div>
-            </div>
-            <div class="character-item scale-hover">
-                <div class="character-image">
-                    <img src="https://www.sosyncd.com/wp-content/uploads/2022/06/38-1.png" alt="">
-                </div>
-            </div>
-            <div class="character-item scale-hover">
-                <div class="character-image">
-                    <img src="https://i.pinimg.com/564x/8b/82/9b/8b829b4533d4c054a14e7d1db9b6e1f5.jpg" alt="">
-                </div>
-            </div>
+
+            <CharacterItem v-for="character in characters" :key="character.id" :character="character" />
 
         </div>
 
-        <button class="circle-btn scale-hover" id="character-panel-add-btn">
+        <button class="circle-btn scale-hover" id="character-panel-add-btn" @click="$emit('createCharacter')">
             <i class="fa fa-plus"></i>
         </button>
     </div>
 </template>
+
+<script>
+import CharacterItem from './CharacterItem.vue';
+import api from '@/plugins/axios_utils';
+import { getDocs } from 'firebase/firestore';
+import { getCharacters } from '@/firebase'
+export default {
+    components: {
+        CharacterItem
+    },
+    data() {
+        return {
+            characters: []
+        }
+    },
+    methods: {
+
+        async getFromFirebase() {
+            var story_id = this.$route.params['story_id']
+
+            getDocs(getCharacters(story_id)).then(e => {
+                // console.log(e.docs)
+                this.characters = e.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }))
+
+            })
+
+        },
+        async getCharacters() {
+            var story_id = this.$route.params['story_id']
+
+            api.get(`story/${story_id}/characters`)
+
+
+        }
+    },
+    mounted() {
+        this.getFromFirebase().then(() => {
+            if (this.characters.length == 0) {
+                this.getCharacters()
+            }
+
+        })
+    }
+}
+</script>

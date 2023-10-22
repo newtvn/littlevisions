@@ -8,7 +8,13 @@
 }
 body {
   color: $text-black;
-  // background-color: $body-background;
+  min-height: 100vh;
+}
+#app {
+  height: 100vh;
+}
+main {
+  min-height: 80vh;
 }
 .row {
   display: flex;
@@ -118,32 +124,65 @@ input {
     font-weight: 500;
   }
 }
-.tertiary-bubble{
-  .avatar-chat-bubble{
+.tertiary-bubble {
+  .avatar-chat-bubble {
     background-color: $tertiary-color;
   }
 }
-.primary-bubble{
-  .avatar-chat-bubble{
+.primary-bubble {
+  .avatar-chat-bubble {
     background-color: $primary-color;
   }
 }
-.secondary-bubble{
-  .avatar-chat-bubble{
+.secondary-bubble {
+  .avatar-chat-bubble {
     background-color: $secondary-color;
   }
 }
-.flex-wrap{
+.flex-wrap {
   display: flex;
   flex-wrap: wrap;
 }
 
-.slideout-title{
+.slideout-title {
   font-weight: 500;
   font-size: 25px;
 }
-.margin-left-auto{
+.margin-left-auto {
   margin-left: auto;
+}
+.large-text {
+  font-size: 30px;
+}
+.full-width-container {
+  width: 100%;
+}
+.f500 {
+  font-weight: 500;
+}
+.f600 {
+  font-weight: 600;
+}
+.card.bg-primary {
+  background-color: #f7e495;
+}
+.card.bg-secondary {
+  background-color: #b0e5db;
+}
+.card.bg-tertiary {
+  background-color: #edcee4;
+}
+.main-title{
+  font-weight: 600;
+}
+.title-image{
+  width: 50px;
+  
+}
+.profile-image{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%
 }
 @import "./chat-bubble.scss";
 @import "./buttons.scss";

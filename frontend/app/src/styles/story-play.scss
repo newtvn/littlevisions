@@ -1,0 +1,95 @@
+@import './variables.scss';
+.story-play-background{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    &::before{
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        content: "";
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(197, 197, 197);
+        mix-blend-mode: multiply;
+    }
+
+}
+.story-play-content{
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 100px 45% 45%;
+    grid-template-rows: 55% 35% 10%;
+}
+.story-play-background .background-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(30px);
+}
+.navigation-title-container{
+    grid-row: 1/3;
+    padding: $default-padding*2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.navigation-title{
+    writing-mode: vertical-lr;
+    font-weight: 500;
+    margin: 60px auto;
+    font-size: larger;
+    color: white;
+    
+}
+.story-timeline-container{
+    grid-row: 3/4;
+    grid-column: 2/4;
+    align-self: self-end;
+}
+.story-text-container{
+    grid-column: 2/3;
+    grid-row: 1/3;
+    padding: $default-padding*4;
+    align-self: flex-start;
+    justify-self: self-end;
+
+    .story-text{
+        font-weight: 500;
+        color: white;
+    }
+}
+.story-image-container{
+    grid-column: 3/4;
+    grid-row: 1/3;
+    justify-self: end;
+    align-self: self-end;
+    img{
+        height: 70vh;
+
+    }
+}
+.board-timeline{
+    display: flex;
+    gap: 20px;
+    padding: $default-padding*2 0;
+    justify-content: center;
+}
+.board-timeline-item{
+    transition: scale .5s ease-in-out;
+    scale: 0.9;
+    cursor: pointer;
+    img{
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+}
+.board-timeline-item.active{
+    scale: 1.3;
+}

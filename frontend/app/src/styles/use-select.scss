@@ -1,0 +1,47 @@
+@import "./variables.scss";
+
+.feature-navigation-cards {
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+.feature-navigation-card {
+  height: 400px;
+  width: 400px;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+
+  .feature-navigation-card-image {
+    max-height: 300px;
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+  h2 {
+    text-align: center;
+    font-weight: 600;
+    font-size: 35px;
+  }
+}
+.feature-navigation-card-content {
+  padding: $default-padding;
+}
+.feature-navigation-card-description {
+  font-size: smaller;
+  line-height: 1.5;
+  font-weight: 500;
+  text-align: center;
+  color: $muted-grey;
+}
+
+.feature-navigation-card.bg-primary {
+  background-color: #f7e495;
+}
+.feature-navigation-card.bg-secondary {
+  background-color: #b0e5db;
+}
+

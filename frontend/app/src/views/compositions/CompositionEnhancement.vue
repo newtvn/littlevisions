@@ -8,6 +8,7 @@
             </p>
         </div>
     </section> -->
+    <CompositionHelperModal :helper="selectedHelper" v-if="showHelper" @close="showHelper=false"/>
 
         <section id="composition-preview-section">
             <div class="composition-writing-container">
@@ -33,9 +34,10 @@ import CompositionHelperCard from '@/components/compositions/CompositionHelperCa
 import { getDocs, query,getDoc } from 'firebase/firestore'
 import { getCompositionHelpers,getCompositionDoc } from '@/firebase'
 import HighlightWords from 'vue-highlight-words'
+import CompositionHelperModal from '@/components/story/modals/CompositionHelperModal.vue'
 export default {
     components: {
-        CompositionHelperCard, HighlightWords
+        CompositionHelperCard, HighlightWords,CompositionHelperModal
     },
     computed: {
         highlightWords() {
@@ -53,7 +55,9 @@ export default {
             },
             to_highlight: null,
             helpers: [
-            ]
+            ],
+            showHelper: false,
+            selectedHelper:null
         }
     },
     methods: {
@@ -81,7 +85,9 @@ export default {
 
         },
         helperClicked(helper){
+            this.selectedHelper=helper
             this.to_highlight = helper.original_narrative
+            this.showHelper=true
 
             
         }

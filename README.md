@@ -17,7 +17,7 @@ LittleVisions is a web-based platform designed to unleash the creativity of chil
 
 ## About
 
-LittleVisions is a creative platform for children to build interactive stories with various characters, plot twists, and much more. This project aims to inspire kids to express their imagination and storytelling abilities.
+LittleVisions is a creative platform for children to build interactive stories with various characters, plot twists, and much more. This project aims to inspire kids to express their imagination and storytelling abilities whilst giving them a rather cinematic and ambient platform.
 
 ## Demo
 

@@ -9,7 +9,7 @@ function getHeaders() {
   }
   return {};
 }
-let baseURL = "http://127.0.0.1:8000/";
+let baseURL = "http://54.164.141.168:8000/";
 const api = axios.create({
   baseURL: baseURL,
   headers: getHeaders(),

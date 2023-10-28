@@ -27,6 +27,8 @@ services:
       context: "./frontend"
     volumes:
       - ./dist:/app/dist
+    ports:
+      - 8080:8080
   nginx:
     container_name: "nginx"
     build: ./nginx
@@ -41,7 +43,6 @@ services:
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
-      - ./dist:/var/www/html
   certbot:
     image: certbot/certbot
     volumes:

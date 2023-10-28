@@ -3,7 +3,7 @@
   <main id="">
 
     <div class="row feature-navigation-cards">
-      <RouterLink :to="{ name: 'story' }">
+      <RouterLink :to="{ name: 'story-home' }">
         <div class="feature-navigation-card  scale-hover bg-primary">
           <div class="feature-navigation-card-content">
             <h2>Stories</h2>
@@ -18,7 +18,7 @@
           <img src="@/assets/images/spongebob.png" alt="" class="feature-navigation-card-image">
         </div>
       </RouterLink>
-      <RouterLink :to="{ name: 'compositions' }">
+      <RouterLink :to="{ name: 'compositions-list' }">
 
         <div class="feature-navigation-card scale-hover  bg-secondary">
           <div class="feature-navigation-card-content">
@@ -47,6 +47,9 @@ export default {
   name: 'HomeView',
   components: {
     NavBar
+  },
+  methods:{
+  
   }
 }
 </script>

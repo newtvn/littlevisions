@@ -6,7 +6,7 @@ openai_key.py
 *firebase-admin*.json
 # C extensions
 *.so
-
+*.pem
 # Distribution / packaging
 .Python
 build/

@@ -86,6 +86,8 @@ export default {
         },
         createCharacter(name, personality, actions) {
             this.showCharacterModal = false
+            let loader = this.$loading.show()
+
             var story_id = this.$route.params['story_id']
             api.post(`story/${story_id}/build/character/continue`, {
                 name: name,
@@ -94,6 +96,8 @@ export default {
             }).then(res => {
                 api.get(`story/${story_id}/characters?restart=True`)
                 this.nextBoard(res.data.board_id)
+            }).finally(()=>{
+                loader.hide()
             })
 
         },

@@ -1,6 +1,8 @@
 from langchain.chains import LLMChain, SequentialChain
 from langchain.llms import OpenAI
 from langchain.memory import SimpleMemory
+
+from core.json_fixer import fix_bad_json
 from .templates import *
 from .openai_key import openai_key
 from .image_gen import ImageGenerator
@@ -114,5 +116,5 @@ def improve_composition(composition: str) -> CompositionHelpers:
         llm=llm, prompt=IMPROVE_COMPOSITION_PROMPT, output_key="composition"
     )
     res = improve_composition_chain.run(composition)
-    print(res)
+    # res = fix_bad_json(res)
     return IMPROVE_COMPOSITION_PARSER.parse(res)

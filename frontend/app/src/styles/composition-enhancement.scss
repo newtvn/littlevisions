@@ -79,3 +79,36 @@
 .composition-helper-card:nth-child(odd) {
   margin-right: 50px;
 }
+
+.helper-card{
+  background-color: white;
+  padding: $default-padding*2;
+  width: 400px;
+  border-radius: 20px;
+  min-height: 150px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 2;
+  display: grid;
+  place-items: center;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.helper-card.creative{
+  background-color: $primary-color;
+}
+.helper-title{
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-top: 25px;
+}
+.arrow-separator svg{
+  width: 4em;
+  margin: 0 25px;
+}
+.helper-description{
+  margin-bottom: 50px;
+}
+#composition-helper-modal{
+  display: block;
+}

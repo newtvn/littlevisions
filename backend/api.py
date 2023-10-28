@@ -232,7 +232,6 @@ async def generate_board_music(story_id: str, board_id):
         music_prompt = storyboard["music_description"]
         music_gen = MusicGenerator(music_prompt)
         music_bytes = music_gen.generate()
-        print(music_bytes)
         output_path = f"./tmp/music/{board_id}.mp3"
         music_gen.write_to_file(music_bytes, output_path)
         public_url = upload.uploadFile(output_path, destination_dir="music")

@@ -14,6 +14,8 @@
 </template>
 <script>
 import CompositionCard from "@/components/compositions/CompositionCard.vue"
+import { getDocs, query } from "firebase/firestore"
+import { getCompositions } from "@/firebase"
 export default {
     components: {
         CompositionCard
@@ -38,7 +40,21 @@ export default {
                     composition_id: id
                 }
             })
+        },
+        fetchCompositions() {
+            getDocs(query(getCompositions())).then(e => {
+                this.compositions = e.docs.map(doc => {
+                    return {
+                        ...doc.data(),
+                        id: doc.id
+                    }
+                })
+
+            })
         }
+    },
+    mounted(){
+        this.fetchCompositions()
     }
 }
 </script>

@@ -22,7 +22,7 @@ STORY_CREATE_PROMPT = PromptTemplate(
 PATH_CREATE_PROMPT_PARSER = create_parser(PathList)
 PATH_CREATE_PROMPT = PromptTemplate(
     input_variables=["narrative"],
-    template="Give me 4 possible paths in 20 words that extend the following narrative. Your response should be a valid extension on the narrative: {narrative}. {format_instructions}",
+    template="Give me 4 possible paths in 20 words that extend the following narrative. Your response should be a valid extension on the narrative. make sure JSON result is valid in terms of commas: {narrative}. {format_instructions}",
     partial_variables={
         "format_instructions": PATH_CREATE_PROMPT_PARSER.get_format_instructions()
     },
@@ -81,7 +81,7 @@ FINISH_STORY_PROMPT = PromptTemplate(
 IMPROVE_COMPOSITION_PARSER = create_parser(CompositionHelpers)
 IMPROVE_COMPOSITION_PROMPT = PromptTemplate(
     input_variables=["composition"],
-    template="I have a composition thats written by a kid, guide me step by step on how to make it better, creative and more cohesive.Minimum of 2 helpers Emphasis on creative: {composition}. {format_instructions}",
+    template="I have a composition thats written by a kid, guide me step by step on how to make it better, creative and more cohesive.Minimum of 2 helpers, make sure JSON result is valid in terms of commas Emphasis on creative: {composition}. {format_instructions}",
     partial_variables={
         "format_instructions": IMPROVE_COMPOSITION_PARSER.get_format_instructions()
     },

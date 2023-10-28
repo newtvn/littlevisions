@@ -18,4 +18,5 @@ app.use(autoAnimatePlugin)
 app.use(Slideout)
 app.use(firebaseApp)
 app.use(firestore)
+
 app.mount('#app')

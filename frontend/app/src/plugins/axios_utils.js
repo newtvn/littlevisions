@@ -9,7 +9,7 @@ function getHeaders() {
   }
   return {};
 }
-let baseURL = "http://littlevisions.meevy.me:8000/";
+let baseURL = "http://littlevisions.meevy.me:8000";
 const api = axios.create({
   baseURL: baseURL,
   headers: getHeaders(),

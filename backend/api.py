@@ -14,6 +14,7 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:8080",
+    "https://littlevisions.vercel.app",
 ]
 
 app.add_middleware(

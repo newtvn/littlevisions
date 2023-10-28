@@ -4,7 +4,6 @@ from langchain.memory import SimpleMemory
 
 from core.json_fixer import fix_bad_json
 from .templates import *
-from .openai_key import openai_key
 from .image_gen import ImageGenerator
 from typing import List
 

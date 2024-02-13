@@ -270,6 +270,9 @@ async def enhance_composition(composition_id: str):
             )
             helper_ids.append(_id)
 
+
         return {"message": "Composition has been enhanced", "helper_ids": helper_ids}
+    # return {"message": " Composition has been further enhanced" , "helper_ids": helper_ids}
     else:
         raise HTTPException(status_code=404, detail="Composition not found")
+ 
